@@ -25,6 +25,11 @@ namespace CoreAPI.Controllers
             Repository = _Repository;
         }
         
+
+        /// <summary>
+        /// all under is good and working
+        /// </summary>
+        /// <returns></returns>
         [Route("api/login")]
         [HttpPost]
         public ActionResult Login([FromBody] LoginRequest request)
@@ -74,8 +79,8 @@ namespace CoreAPI.Controllers
         [HttpGet]
         public ActionResult GetUserInfo()
         {
-            var requestHeader = this.Request.Headers["Authorization"].ToString();
-            int id=Jwt.Get_Id(requestHeader);
+            var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            int id=Jwt.GetIdFromToken(authorizationToken);
             dynamic result = Repository.GetInfo(id);
             if (result == null)
                 return NotFound(new { message = "not found" });
@@ -93,8 +98,8 @@ namespace CoreAPI.Controllers
         [HttpPost]
         public ActionResult PostUserInfo([FromBody]UserInfoRequest request)
         {
-            var requestHeader = this.Request.Headers["Authorization"].ToString();
-            int id = Jwt.Get_Id(requestHeader);
+            var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            int id = Jwt.GetIdFromToken(authorizationToken);
             dynamic result = Repository.SetUserInfo(request,id);
             if (result == null)
                 return NotFound(new { message = "not found" });
@@ -115,8 +120,8 @@ namespace CoreAPI.Controllers
         
         public ActionResult GetMatch()
         {
-            var requestHeader = this.Request.Headers["Authorization"].ToString();
-            int id = Jwt.Get_Id(requestHeader);
+            var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            int id = Jwt.GetIdFromToken(authorizationToken);
             dynamic result = Repository.GetMatch(id);
             if (result == null)
                 return NotFound(new { message = "not found" });
@@ -136,8 +141,8 @@ namespace CoreAPI.Controllers
         [HttpPost]
         public ActionResult PostSetLike([FromBody]LikeRequest request)
         {
-            var requestHeader = this.Request.Headers["Authorization"].ToString();
-            int id = Jwt.Get_Id(requestHeader);
+            var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            int id = Jwt.GetIdFromToken(authorizationToken);
             dynamic result = Repository.SetLike(request, id);
             if (result == null)
                 return NotFound(new { message = "not found" });
@@ -156,8 +161,8 @@ namespace CoreAPI.Controllers
         [HttpGet]
         public ActionResult DeleteUser()
         {
-            var requestHeader = this.Request.Headers["Authorization"].ToString();
-            int id = Jwt.Get_Id(requestHeader);
+            var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            int id = Jwt.GetIdFromToken(authorizationToken);
             dynamic result = Repository.DeleteUser(id);
             if (result == null)
                 return NotFound(new { message = "not found" });
@@ -176,8 +181,8 @@ namespace CoreAPI.Controllers
         [HttpGet]
         public ActionResult Matches()
         {
-            var requestHeader = this.Request.Headers["Authorization"].ToString();
-            int id = Jwt.Get_Id(requestHeader);
+            var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            int id = Jwt.GetIdFromToken(authorizationToken);
             dynamic result = Repository.Matches(id);
             if (result == null)
                 return NotFound(new { message = "not found" });

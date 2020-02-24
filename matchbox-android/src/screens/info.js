@@ -23,7 +23,6 @@ import { Ionicons } from "@expo/vector-icons";
 
 class InfoScreen extends React.Component {
   @observable id = null;
-  @observable photoPath;
   @observable name;
   @observable age;
   @observable gender;
@@ -31,6 +30,7 @@ class InfoScreen extends React.Component {
   @observable job;
   @observable company;
   @observable description;
+  @observable photoPath;
 
   componentDidMount() {
     apiFetch("user-info").then(
@@ -62,6 +62,7 @@ class InfoScreen extends React.Component {
     });
   }
 
+  
   @action.bound
   onChange(prop, text) {
     this[prop] = text;
@@ -79,7 +80,7 @@ class InfoScreen extends React.Component {
   }
 
   @bind handleUpload() {
-    uploadImage().then(() => (this.photoPath = photoSrc(this.id)));
+    uploadImage().then(action(() => (this.photoPath = photoSrc(this.id))));
   }
 
   @bind handleLogout() {
@@ -91,7 +92,7 @@ class InfoScreen extends React.Component {
   }
 
   @bind handleDeleteImage() {
-    deleteImage().then(() => (this.photoPath = photoSrc(this.id)));
+    deleteImage().then(action(() => (this.photoPath = photoSrc(this.id))));
   }
 
   render() {

@@ -1,14 +1,15 @@
 import store from "../store";
 
-import { kNodeUrl } from "../constants/api";
+import { kApiBaseUrl } from "../constants/api";
 
 function deleteImage() {
   const { token } = store.user;
 
-  return fetch(kNodeUrl, {
+  return fetch(`${kApiBaseUrl}/delete-image`, {
     method: "DELETE",
     headers: {
       Authorization: token
+      
     }
   });
 }

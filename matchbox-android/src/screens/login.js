@@ -16,8 +16,8 @@ import { FormInput } from "../shared";
 import store from "../store";
 
 class LogInScreen extends React.Component {
-  @observable email = "";
-  @observable password = "";
+  @observable email = "simon@gmail.com";
+  @observable password = "1234";
   @observable error = "";
 
   @action.bound

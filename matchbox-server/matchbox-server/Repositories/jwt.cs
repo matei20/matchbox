@@ -74,7 +74,7 @@ namespace Core2API.Repositories
             //Get_Id("eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6MzAwMy4wLCJFTUFJTCI6ImdhYnJpZWxtYXRlaTJAZ21haWwuY29tIn0.0YGk0PrCbkuhjdSHrG8YQ9oEpiNOh4YNxWqO36xMO28");
             return tokenString;
         }
-        public static int Get_Id(string Token)
+        public static int GetIdFromToken(string Token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var validationParameters = GetValidationParameters();

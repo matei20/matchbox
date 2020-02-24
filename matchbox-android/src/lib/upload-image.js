@@ -1,7 +1,7 @@
 import { ImagePicker } from "expo";
 import store from "../store";
 
-import { kNodeUrl } from "../constants/api";
+import { kApiBaseUrl } from "../constants/api";
 
 async function uploadImage() {
   let result = await ImagePicker.launchImageLibraryAsync({
@@ -24,13 +24,13 @@ async function uploadImage() {
   let formData = new FormData();
   // Assume "photo" is the name of the form field the server expects
   formData.append("photo", { uri: localUri, name: filename, type });
-
-  return await fetch(kNodeUrl, {
+//below was kNodeUrl
+  return await fetch(`${kApiBaseUrl}/upload-image`, {
     method: "POST",
     body: formData,
     headers: {
       Authorization: store.user.token,
-      "content-type": "multipart/form-data"
+      "content-type": "multipart/form-data"//de vazut care e treaba
     }
   });
 }

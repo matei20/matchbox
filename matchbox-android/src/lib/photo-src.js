@@ -1,7 +1,8 @@
-import { kNodeUrl } from "../constants/api";
+import { kApiBaseUrl } from "../constants/api";
 
 function photoSrc(id) {
-  return `${kNodeUrl}/${id}.jpg?${Date.now()}`;
+
+    return `${kApiBaseUrl}/download-image/${id}.jpg?${Date.now()}`;
 }
 
 export default photoSrc;
