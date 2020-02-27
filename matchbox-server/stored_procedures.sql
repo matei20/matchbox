@@ -120,25 +120,44 @@ BEGIN
 
 DELETE from users where id=p_id;
     OPEN cursorParam FOR
-        SELECT employee_id
-            FROM employees
-            WHERE employee_id = 100;
+        SELECT users.id from users where id = 1;
+
+END;
+
+--set user location info procedure
+create or replace procedure  USP_SETUSERLOCATIONINFO(p_id IN Number,
+                                p_country IN VARCHAR2,
+                                p_city IN VARCHAR2,
+                                p_latitude IN VARCHAR2,
+                                p_longitude IN VARCHAR2,
+                                cursorParam OUT SYS_REFCURSOR)
+IS
+BEGIN
+update location 
+SET country=p_country,
+    city=p_city,
+    latitude=p_latitude,
+    longitude=p_longitude
+WHERE id = p_id;
+    OPEN cursorParam FOR
+        SELECT id FROM  users_info where id=p_id ;
 END;
 
 
 --trigger to insert in users_info after insert on users
-CREATE or REPLACE TRIGGER usersInfoTrigger
+create or replace TRIGGER usersInfoTrigger
 AFTER INSERT
 ON users
 FOR EACH ROW
 DECLARE
     v_id users_info.id%TYPE;
     v_email users_info.email%TYPE;
-    
+
 BEGIN
     v_id := :new.id;
     v_email := :new.email;
     INSERT INTO users_info(id, email) values (v_id, v_email);
+    INSERT INTO location(id) values (v_id);
 end;
 
 
@@ -153,6 +172,7 @@ DECLARE
 BEGIN
     v_id := :old.id;
     DELETE from likes where from_user=v_id or to_user = v_id;
+    DELETE from location where id=v_id;
     DELETE from users_info where id=v_id;
 end;
 
@@ -219,6 +239,17 @@ end package_setInformation;
   STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
   PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
   TABLESPACE "USERS" ;
+
+--create LOCATION table
+CREATE TABLE location( id NUMBER(20) NOT NULL,
+                        country VARCHAR2(40),
+                        city VARCHAR2(40),
+                        latitude VARCHAR2(40),
+                        longitude VARCHAR2(40),
+                        CONSTRAINT uk_id UNIQUE(ID),
+                        CONSTRAINT fk_location FOREIGN KEY(id)
+                        REFERENCES users(id));
+
 
 
 Check This: https://stackoverflow.com/questions/14725455/connecting-to-visual-studio-debugging-iis-express-server-over-the-lan

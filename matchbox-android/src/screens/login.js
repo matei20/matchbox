@@ -14,6 +14,7 @@ import bind from "bind-decorator";
 import WithAuthNav from "../navs/auth";
 import { FormInput } from "../shared";
 import store from "../store";
+import sendLocationInfo from "../location/send-location-info";
 
 class LogInScreen extends React.Component {
   @observable email = "simon@gmail.com";
@@ -29,7 +30,11 @@ class LogInScreen extends React.Component {
   onSubmit() {
     store.user.fetchLogIn(this.email, this.password).then(
       action(res => {
-        if (res.token) store.user.login(res.token);
+        if (res.token)
+        {
+           store.user.login(res.token);
+           sendLocationInfo();
+        }
         else this.error = res.message;
       })
     );

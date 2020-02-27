@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Core2API.Repositories
+namespace MatchboxServer.Utilities
 {
     public class Sha256
     {

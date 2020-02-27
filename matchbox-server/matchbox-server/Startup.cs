@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Core2API.Repositories;
+using MatchboxServer.Repositories;
+using MatchboxServer.Interfaces;
 
-namespace matchbox_server
+namespace MatchboxServer
 {
     public class Startup
     {
@@ -25,7 +20,8 @@ namespace matchbox_server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IRepository, Repository>();
+            services.AddTransient<IAuthentication, AuthenticationRepository>();
+            services.AddTransient<IUserInfo, UserInfoRepository>();
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

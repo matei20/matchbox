@@ -7,7 +7,7 @@ import {
   Button,
   Text
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons,Entypo } from "@expo/vector-icons";
 import { observer } from "mobx-react/native";
 import { observable, action } from "mobx";
 
@@ -26,7 +26,8 @@ class SwipeScreen extends React.Component {
   @observable job;
   @observable company;
   @observable description;
-
+  @observable city;
+  @observable country;
   componentDidMount() {
     this.fetchMatch();
   }
@@ -43,7 +44,8 @@ class SwipeScreen extends React.Component {
         this.job = r.JOB;
         this.company = r.COMPANY;
         this.description = r.DESCRIPTION;
-
+        this.city = r.CITY;
+        this.country = r.COUNTRY;
         this.photoPath = photoSrc(this.id);
       })
     );
@@ -101,7 +103,12 @@ class SwipeScreen extends React.Component {
             <Button title="Like" onPress={this.fetchLike} />
           </View>
         </View>
-
+        {this.city && this.country && (
+          <View style={styles.fieldWithIcon}>
+            <Entypo name="location-pin" size={18} />
+            <Text style={{ marginLeft: 10 }}>{this.city}, {this.country}</Text>
+          </View>
+        )}
         {this.school && (
           <View style={styles.fieldWithIcon}>
             <Ionicons name="ios-school" size={18} />

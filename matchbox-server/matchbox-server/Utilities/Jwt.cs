@@ -1,16 +1,12 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
 
-namespace Core2API.Repositories
+namespace MatchboxServer.Utilities
 {
     public class ID
     {
@@ -30,7 +26,7 @@ namespace Core2API.Repositories
                 ValidIssuer = "Sample",
                 ValidAudience = "Sample",
                 IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)) // The same key as the one that generate the token
-        };
+            };
         }
         private static bool ValidateToken(string authToken)
         {
@@ -63,7 +59,7 @@ namespace Core2API.Repositories
                 {
                     var num = pair.Key;
                     var val = pair.Value;
-                    if(num == "ID" || num =="EMAIL")
+                    if (num == "ID" || num == "EMAIL")
                         payload.Add(num, val);
                 }
             }
@@ -102,5 +98,5 @@ namespace Core2API.Repositories
         }
 
     }
-        
+
 }

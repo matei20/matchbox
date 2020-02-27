@@ -25,6 +25,7 @@ class InfoScreen extends React.Component {
   @observable id = null;
   @observable name;
   @observable age;
+  @observable maxDistance;
   @observable gender;
   @observable school;
   @observable job;
@@ -33,11 +34,13 @@ class InfoScreen extends React.Component {
   @observable photoPath;
 
   componentDidMount() {
+
     apiFetch("user-info").then(
       action(r => {
         this.id = r.ID;
         this.name = r.NAME || "";
         this.age = r.AGE || 18;
+        this.maxDistance = r.MAXDISTANCE || 50;
         this.gender = r.GENDER || "";
         this.school = r.SCHOOL || "";
         this.job = r.JOB || "";
@@ -54,6 +57,7 @@ class InfoScreen extends React.Component {
     apiFetch("user-info", {
       name: this.name,
       age: this.age,
+      maxDistance: this.maxDistance,
       gender: this.gender,
       school: this.school,
       job: this.job,
@@ -62,7 +66,7 @@ class InfoScreen extends React.Component {
     });
   }
 
-  
+
   @action.bound
   onChange(prop, text) {
     this[prop] = text;
@@ -140,6 +144,28 @@ class InfoScreen extends React.Component {
               selected={this.gender}
               onChange={this.onChangeGender}
             />
+          </View>
+        </View>
+
+        <View style={styles.twoContainer}>
+          <View style={styles.sideContainer}>
+            <FormInput
+                label="Max Distance"
+                prop="maxDistance"
+                value={this.maxDistance.toString()}
+                onChangeText={this.onChangeInt}
+                onEndEditing={this.onEndEditing}
+              />
+          </View>
+          
+          <View style={styles.sideContainer}>
+            <FormInput
+                label="Age Range"
+                prop="maxDistance"
+                value={this.maxDistance.toString()}
+                onChangeText={this.onChangeInt}
+                onEndEditing={this.onEndEditing}
+              />
           </View>
         </View>
 

@@ -14,6 +14,7 @@ import WithAuthNav from "../navs/auth";
 import { FormInput } from "../shared";
 import store from "../store";
 import bind from "bind-decorator";
+import sendLocationInfo from "../location/send-location-info";
 
 class RegisterScreen extends React.Component {
   @observable email = "";
@@ -30,8 +31,12 @@ class RegisterScreen extends React.Component {
   onSubmit() {
     store.user.fetchRegister(this.email, this.password, this.rePassword).then(
       action(res => {
-        if (res.token) store.user.login(res.token);
-        else this.error = res.message;
+        if (res.token){
+          store.user.login(res.token);
+          sendLocationInfo();
+        }
+        else 
+        this.error = res.message;
       })
     );
   }

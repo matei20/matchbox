@@ -1,16 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
-using System.Web;
-using System.Net.Http.Formatting;
 using System.IO;
-using Core2API.Repositories;
+using MatchboxServer.Utilities;
 
 namespace CoreAPI.Controllers
 {
@@ -34,7 +26,6 @@ namespace CoreAPI.Controllers
             string filename = id.ToString() + ".jpg";
             
             var path = Path.Combine(storePath, filename);
-            var a = 2;
             using (var stream = new FileStream(path, FileMode.Create))
             {
                 await form.Files[0].CopyToAsync(stream);
@@ -52,9 +43,6 @@ namespace CoreAPI.Controllers
         public async Task<IActionResult> DownloadImage(string filename)
         {
             string storePath = "F:/Licenta/matchbox/matchbox-server/Uploads/";
-            //if (filename == null)
-            //   return Content("filename not present");
-            //var filename = this.Request.Headers["filename"].ToString();
 
             var path = Path.Combine(storePath, filename);
             if (!System.IO.File.Exists(path))

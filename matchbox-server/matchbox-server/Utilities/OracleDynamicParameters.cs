@@ -3,8 +3,9 @@ using Oracle.ManagedDataAccess.Client;
 using System.Collections.Generic;
 using System.Data;
 
-namespace Core2API.Oracle
+namespace MatchboxServer.Utilities
 {
+
     public class OracleDynamicParameters : SqlMapper.IDynamicParameters
     {
         private readonly DynamicParameters dynamicParameters = new DynamicParameters();
