@@ -32,6 +32,8 @@ namespace MatchboxServer.Utilities
     {
         public string name { get; set; }
         public int age { get; set; }
+        public int minAge { get; set; }
+        public int maxAge { get; set; }
         public int maxDistance { get; set; }
         public string gender { get; set; }
         public string school { get; set; }
@@ -56,6 +58,7 @@ namespace MatchboxServer.Utilities
     }
     public class GeoLocation
     {
+
         public static double distanceBetweenTwoUsers(double lat1, double lng1, double lat2, double lng2)
         {
             GeoCoordinate pin1 = new GeoCoordinate(lat1, lng1);

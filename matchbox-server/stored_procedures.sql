@@ -1,12 +1,4 @@
-create or replace procedure  USP_GETEMPLOYEES(cursorParam OUT SYS_REFCURSOR)
-IS
-BEGIN
-    OPEN cursorParam FOR
-        SELECT * FROM  EMPLOYEES;
-END;
-
-
---autoincrement
+--autoincrement sequence
 CREATE SEQUENCE INCREMENT_1
   START WITH 1
   INCREMENT BY 1
@@ -17,10 +9,11 @@ CREATE SEQUENCE INCREMENT_1
 create or replace procedure  USP_MATCHES(p_id IN Numeric,
                                 cursorParam OUT SYS_REFCURSOR)
 IS
+
 BEGIN
     OPEN cursorParam FOR
-      Select * from users_info  
-      where id IN(Select a.to_user from likes A INNER JOIN likes B on (A.from_user=B.to_user and A.to_user=B.from_user) 
+      Select u.*,loc.city from users_info u JOIN location loc on u.id = loc.id 
+      where u.id IN(Select a.to_user from likes A INNER JOIN likes B on (A.from_user=B.to_user and A.to_user=B.from_user) 
 where a.like_box=1 and b.like_box=1 and a.from_user=p_id);
 END;
 
@@ -66,6 +59,9 @@ END;
 create or replace procedure  USP_SETUSERINFO(p_id IN Number,
                                 p_name IN VARCHAR2,
                                 p_age IN Number,
+                                p_minage IN Number,
+                                p_maxage IN Number,
+                                p_maxdistance IN Number,
                                 p_gender IN VARCHAR2,
                                 p_school IN VARCHAR2,
                                 p_job IN VARCHAR2,
@@ -77,6 +73,9 @@ BEGIN
 update users_info 
 SET name=p_name,
     age=p_age,
+    minage=p_minage,
+    maxage=p_maxage,
+    maxdistance=p_maxdistance,
     gender=p_gender,
     school=p_school,
     job=p_job,
@@ -93,9 +92,16 @@ END;
 create or replace procedure  USP_GETMATCH(p_id IN Numeric,
                                 cursorParam OUT SYS_REFCURSOR)
 IS
+    v_minage users_info.minage%TYPE;
+    v_maxage users_info.maxage%TYPE;
+    
 BEGIN
+    SELECT minage into v_minage from users_info where id=p_id;
+    SELECT maxage into v_maxage from users_info where id=p_id;
     OPEN cursorParam FOR
-      Select * from users_info where gender!=(Select gender from users_info where id=p_id) and users_info.id!=All(Select to_user from likes where from_user=p_id ) and id!= p_id ;
+      Select u.*,loc.city,loc.country from users_info u join location loc on u.id = loc.id
+      where u.gender != (Select gender from users_info where id=p_id) and
+      u.id != All(Select to_user from likes where from_user=p_id ) and u.id != p_id and u.age BETWEEN v_minage and v_maxage ;
 END;
 
 
@@ -144,7 +150,7 @@ WHERE id = p_id;
 END;
 
 
---trigger to insert in users_info after insert on users
+--trigger to insert in users_info and location after insert on users
 create or replace TRIGGER usersInfoTrigger
 AFTER INSERT
 ON users
@@ -176,35 +182,32 @@ BEGIN
     DELETE from users_info where id=v_id;
 end;
 
-
---CREATE packege package_setInformation
-create or replace package package_setInformation AS
-procedure USP_ADDUSER(p_email IN VARCHAR2, p_password IN VARCHAR2, cursorParam OUT SYS_REFCURSOR); 
-
-end package_setInformation;
-
 --CREATE users table
   CREATE TABLE "USERS" 
    (	"ID" NUMBER(20,0) NOT NULL ENABLE, 
 	"EMAIL" VARCHAR2(50 BYTE) NOT NULL ENABLE, 
 	"PASSWORD" VARCHAR2(270 BYTE), 
-	 CONSTRAINT "USERS_EMAIL_UK" UNIQUE ("EMAIL")
-  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
-  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
-  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
-  TABLESPACE "USERS"  ENABLE, 
 	 CONSTRAINT "USERS_ID_PK" PRIMARY KEY ("ID")
   USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
-  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
-  TABLESPACE "USERS"  ENABLE
-   ) SEGMENT CREATION IMMEDIATE 
-  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS"  ENABLE, 
+	 CONSTRAINT "USERS_EMAIL_UK" UNIQUE ("EMAIL")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
-  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS"  ENABLE, 
+	 CONSTRAINT "USERS_EMAIL_CK" CHECK (REGEXP_LIKE (EMAIL,'^[A-Za-z]+[A-Za-z0-9.]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$')) ENABLE
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
   TABLESPACE "USERS" ;
 
-  
   --create LIKES table
   CREATE TABLE "LIKES" 
    (	"FROM_USER" NUMBER(20,0), 
@@ -215,11 +218,12 @@ end package_setInformation;
 	 CONSTRAINT "LIKES_TO_USER_FK" FOREIGN KEY ("TO_USER")
 	  REFERENCES "USERS" ("ID") ENABLE
    ) SEGMENT CREATION IMMEDIATE 
-  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
   STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
-  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
   TABLESPACE "USERS" ;
-
 
 --create USERS_INFO table
   CREATE TABLE "USERS_INFO" 
@@ -232,13 +236,27 @@ end package_setInformation;
 	"COMPANY" VARCHAR2(40 BYTE), 
 	"DESCRIPTION" VARCHAR2(120 BYTE), 
 	"EMAIL" VARCHAR2(50 BYTE), 
-	 CONSTRAINT "USERS_INFO_ID_FK" FOREIGN KEY ("ID")
-	  REFERENCES "USERS" ("ID") ENABLE
-   ) SEGMENT CREATION IMMEDIATE 
-  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+	"MAXDISTANCE" NUMBER(3,0), 
+	"MINAGE" NUMBER(3,0), 
+	"MAXAGE" NUMBER(3,0), 
+	 UNIQUE ("ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
   STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
-  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS"  ENABLE, 
+	 CONSTRAINT "CHK_MINAGE" CHECK (minage>=18) ENABLE, 
+	 CONSTRAINT "CHK_MAXAGE" CHECK (maxage <=100) ENABLE, 
+	 CONSTRAINT "USERS_INFO_ID_FK" FOREIGN KEY ("ID")
+	  REFERENCES "C##MATCH"."USERS" ("ID") ENABLE
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
   TABLESPACE "USERS" ;
+
 
 --create LOCATION table
 CREATE TABLE location( id NUMBER(20) NOT NULL,

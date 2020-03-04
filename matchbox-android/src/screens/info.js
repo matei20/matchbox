@@ -8,6 +8,7 @@ import {
   Button
 } from "react-native";
 import { action, observable } from "mobx";
+import MultiSlider from "@ptomasroos/react-native-multi-slider";
 
 import { FormInput, GenderSelect } from "../shared";
 import WithAppNav from "../navs/app";
@@ -21,6 +22,8 @@ import photoSrc from "../lib/photo-src";
 import store from "../store";
 import { Ionicons } from "@expo/vector-icons";
 
+import RangeSlider from "../slider/rangeSlider";
+
 class InfoScreen extends React.Component {
   @observable id = null;
   @observable name;
@@ -32,6 +35,8 @@ class InfoScreen extends React.Component {
   @observable company;
   @observable description;
   @observable photoPath;
+  @observable minAge = 18;
+  @observable maxAge = 100;
 
   componentDidMount() {
 
@@ -41,6 +46,8 @@ class InfoScreen extends React.Component {
         this.name = r.NAME || "";
         this.age = r.AGE || 18;
         this.maxDistance = r.MAXDISTANCE || 50;
+        this.minAge = r.MINAGE || 18;
+        this.maxAge = r.MAXAGE || 100;
         this.gender = r.GENDER || "";
         this.school = r.SCHOOL || "";
         this.job = r.JOB || "";
@@ -57,6 +64,8 @@ class InfoScreen extends React.Component {
     apiFetch("user-info", {
       name: this.name,
       age: this.age,
+      minAge: this.minAge,
+      maxAge: this.maxAge,
       maxDistance: this.maxDistance,
       gender: this.gender,
       school: this.school,
@@ -66,6 +75,12 @@ class InfoScreen extends React.Component {
     });
   }
 
+ 
+  @action.bound
+  handleValuesChange(values) {
+    this.minAge = values[0];
+    this.maxAge = values[1];
+  }
 
   @action.bound
   onChange(prop, text) {
@@ -147,25 +162,19 @@ class InfoScreen extends React.Component {
           </View>
         </View>
 
-        <View style={styles.twoContainer}>
-          <View style={styles.sideContainer}>
+        <RangeSlider minAge={this.minAge} maxAge={this.maxAge} onValuesChange={this.handleValuesChange} onEndEditing={this.onEndEditing}/>
+
+        <View style={{
+          flexDirection: "row",
+        }}>
+          <View style={{width:"30%"}}>
             <FormInput
-                label="Max Distance"
-                prop="maxDistance"
-                value={this.maxDistance.toString()}
-                onChangeText={this.onChangeInt}
-                onEndEditing={this.onEndEditing}
-              />
-          </View>
-          
-          <View style={styles.sideContainer}>
-            <FormInput
-                label="Age Range"
-                prop="maxDistance"
-                value={this.maxDistance.toString()}
-                onChangeText={this.onChangeInt}
-                onEndEditing={this.onEndEditing}
-              />
+              label="Max Distance"
+              prop="maxDistance"
+              value={this.maxDistance.toString()}
+              onChangeText={this.onChangeInt}
+              onEndEditing={this.onEndEditing}
+            />
           </View>
         </View>
 
@@ -213,6 +222,7 @@ class InfoScreen extends React.Component {
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   scrollContainer: {

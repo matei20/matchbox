@@ -28,6 +28,7 @@ class SwipeScreen extends React.Component {
   @observable description;
   @observable city;
   @observable country;
+  @observable distance;
   componentDidMount() {
     this.fetchMatch();
   }
@@ -46,6 +47,7 @@ class SwipeScreen extends React.Component {
         this.description = r.DESCRIPTION;
         this.city = r.CITY;
         this.country = r.COUNTRY;
+        this.distance = r.MAXDISTANCE;
         this.photoPath = photoSrc(this.id);
       })
     );
@@ -94,6 +96,13 @@ class SwipeScreen extends React.Component {
           </Text>
         </View>
 
+        {this.city && this.distance && (
+          <View style={styles.location}>
+            <Entypo name="location-pin" size={18} color="#484848" />
+            <Text style={{ marginLeft: 4, color: "#484848"}}>{this.city}, {this.distance} km away</Text>
+          </View>
+        )}
+
         <View style={styles.twoContainer}>
           <View style={styles.sideContainer}>
             <Button title="Skip" onPress={this.fetchSkip} />
@@ -103,12 +112,7 @@ class SwipeScreen extends React.Component {
             <Button title="Like" onPress={this.fetchLike} />
           </View>
         </View>
-        {this.city && this.country && (
-          <View style={styles.fieldWithIcon}>
-            <Entypo name="location-pin" size={18} />
-            <Text style={{ marginLeft: 10 }}>{this.city}, {this.country}</Text>
-          </View>
-        )}
+
         {this.school && (
           <View style={styles.fieldWithIcon}>
             <Ionicons name="ios-school" size={18} />
@@ -149,7 +153,6 @@ const styles = StyleSheet.create({
     width: "48%"
   },
   title: {
-    marginBottom: 20,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end"
@@ -163,6 +166,12 @@ const styles = StyleSheet.create({
   fieldWithIcon: {
     alignItems: "center",
     marginTop: 5,
+    flexDirection: "row"
+  },
+  location: {
+    marginBottom: 18,
+    alignItems: "center",
+    marginLeft: -2,
     flexDirection: "row"
   },
   description: {

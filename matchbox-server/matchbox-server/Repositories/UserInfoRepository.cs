@@ -55,6 +55,8 @@ namespace MatchboxServer.Repositories
                 dyParam.Add("p_id", OracleDbType.Int32, ParameterDirection.Input, id, sizeof(Int32));
                 dyParam.Add("p_name", OracleDbType.Varchar2, ParameterDirection.Input, request.name, request.name.Length * sizeof(Char));
                 dyParam.Add("p_age", OracleDbType.Int32, ParameterDirection.Input, request.age, sizeof(Int32));
+                dyParam.Add("p_minAge", OracleDbType.Int32, ParameterDirection.Input, request.minAge, sizeof(Int32));
+                dyParam.Add("p_maxAge", OracleDbType.Int32, ParameterDirection.Input, request.maxAge, sizeof(Int32));
                 dyParam.Add("p_maxDistance", OracleDbType.Int32, ParameterDirection.Input, request.maxDistance, sizeof(Int32));
                 dyParam.Add("p_gender", OracleDbType.Varchar2, ParameterDirection.Input, request.gender, request.gender.Length * sizeof(Char));
                 dyParam.Add("p_school", OracleDbType.Varchar2, ParameterDirection.Input, request.school, request.school.Length * sizeof(Char));

@@ -92,8 +92,15 @@ namespace MatchboxServer.Controllers
                                                                   Convert.ToDouble(user2Location.LATITUDE), Convert.ToDouble(user2Location.LONGITUDE));
                 dynamic maxDistResp = Repository.GetUserMaxDistance(id);
                 double maxDistance = Convert.ToDouble(maxDistResp.MAXDISTANCE);
-                if (dist <= maxDistance*1000)
+
+                if (dist <= maxDistance * 1000) {
+                    int distInKm = (int)(dist / 1000 + 0.5);
+                    if(distInKm > 0)
+                        res.MAXDISTANCE = Convert.ToString(distInKm);
+                    else
+                        res.MAXDISTANCE = Convert.ToString(1);
                     return Ok(res);
+                }
             }
             return NotFound(new { message = "not found" });
         }
@@ -129,6 +136,21 @@ namespace MatchboxServer.Controllers
             {
                 return BadRequest(new { message = "Error" });
             }
+            foreach (var res in result)
+            {
+                dynamic user1Location = Repository.GetUserLocationInfo(id);
+                dynamic user2Location = Repository.GetUserLocationInfo(Convert.ToInt32(res.ID));
+                double dist = GeoLocation.distanceBetweenTwoUsers(Convert.ToDouble(user1Location.LATITUDE), Convert.ToDouble(user1Location.LONGITUDE),
+                                                                  Convert.ToDouble(user2Location.LATITUDE), Convert.ToDouble(user2Location.LONGITUDE));
+                
+                int distInKm = (int)(dist / 1000 + 0.5);
+                if (distInKm > 0)
+                    res.MAXDISTANCE = Convert.ToString(distInKm);
+                else
+                    res.MAXDISTANCE = Convert.ToString(1);
+                
+            }
+
             return Ok(result);
         }
 

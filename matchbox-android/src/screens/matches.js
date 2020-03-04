@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, View, StyleSheet, Image, Text } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, Entypo } from "@expo/vector-icons";
 import { observer } from "mobx-react/native";
 import { observable, action } from "mobx";
 
@@ -24,7 +24,8 @@ class MatchesScreen extends React.Component {
           job: m.JOB,
           company: m.COMPANY,
           description: m.DESCRIPTION,
-
+          distance: m.MAXDISTANCE,
+          city: m.CITY,
           photoPath: photoSrc(m.ID)
         }));
       })
@@ -67,6 +68,11 @@ class MatchesScreen extends React.Component {
               </Text>
             </View>
 
+            <View style={styles.location}>
+              <Entypo name="location-pin" size={18} color="#484848" />
+              <Text style={{ marginLeft: 4, color: "#484848" }}>{m.city}, {m.distance} km away</Text>
+            </View>
+
             <View style={styles.fieldWithIcon}>
               <Ionicons name="ios-mail" size={18} />
               <Text style={{ marginLeft: 10 }}>{m.email}</Text>
@@ -106,7 +112,6 @@ const styles = StyleSheet.create({
     padding: 20
   },
   title: {
-    marginBottom: 10,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end"
@@ -129,6 +134,12 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderColor: "#d3d3d3"
+  },
+  location: {
+    marginBottom: 10,
+    alignItems: "center",
+    marginLeft: -2,
+    flexDirection: "row"
   },
   noMorePeople: {
     flexDirection: "row",
