@@ -5,11 +5,11 @@ import {
   View,
   Image,
   StyleSheet,
-  Button
+  Button,
+  Text
 } from "react-native";
-import { action, observable } from "mobx";
-import MultiSlider from "@ptomasroos/react-native-multi-slider";
 
+import { action, observable } from "mobx";
 import { FormInput, GenderSelect } from "../shared";
 import WithAppNav from "../navs/app";
 import { observer } from "mobx-react/native";
@@ -27,7 +27,7 @@ import RangeSlider from "../slider/rangeSlider";
 class InfoScreen extends React.Component {
   @observable id = null;
   @observable name;
-  @observable age;
+  @observable age = 18;
   @observable maxDistance;
   @observable gender;
   @observable school;
@@ -35,8 +35,9 @@ class InfoScreen extends React.Component {
   @observable company;
   @observable description;
   @observable photoPath;
-  @observable minAge = 18;
-  @observable maxAge = 100;
+  @observable minAge;
+  @observable maxAge;
+  @observable error;
 
   componentDidMount() {
 
@@ -47,7 +48,7 @@ class InfoScreen extends React.Component {
         this.age = r.AGE || 18;
         this.maxDistance = r.MAXDISTANCE || 50;
         this.minAge = r.MINAGE || 18;
-        this.maxAge = r.MAXAGE || 100;
+        this.maxAge = r.MAXAGE || 50;
         this.gender = r.GENDER || "";
         this.school = r.SCHOOL || "";
         this.job = r.JOB || "";
@@ -61,21 +62,27 @@ class InfoScreen extends React.Component {
 
   @bind
   onEndEditing() {
-    apiFetch("user-info", {
-      name: this.name,
-      age: this.age,
-      minAge: this.minAge,
-      maxAge: this.maxAge,
-      maxDistance: this.maxDistance,
-      gender: this.gender,
-      school: this.school,
-      job: this.job,
-      company: this.company,
-      description: this.description
-    });
+    if (parseInt(this.age) < 18) {
+      this.error = "Age must be higher than 18!";
+    }
+    else {
+      this.error = "";
+      apiFetch("user-info", {
+        name: this.name,
+        age: this.age,
+        minAge: this.minAge,
+        maxAge: this.maxAge,
+        maxDistance: this.maxDistance,
+        gender: this.gender,
+        school: this.school,
+        job: this.job,
+        company: this.company,
+        description: this.description
+      });
+    }
   }
 
- 
+
   @action.bound
   handleValuesChange(values) {
     this.minAge = values[0];
@@ -145,7 +152,7 @@ class InfoScreen extends React.Component {
 
         <View style={styles.twoContainer}>
           <View style={styles.sideContainer}>
-            <FormInput
+            <FormInput style={{ marginBottom: 0 }}
               label="Age"
               prop="age"
               value={this.age.toString()}
@@ -161,13 +168,14 @@ class InfoScreen extends React.Component {
             />
           </View>
         </View>
+        <Text style={styles.error}>{this.error}</Text>
 
-        <RangeSlider minAge={this.minAge} maxAge={this.maxAge} onValuesChange={this.handleValuesChange} onEndEditing={this.onEndEditing}/>
+        <RangeSlider minAge={this.minAge} maxAge={this.maxAge} onValuesChange={this.handleValuesChange} onEndEditing={this.onEndEditing} />
 
         <View style={{
           flexDirection: "row",
         }}>
-          <View style={{width:"30%"}}>
+          <View style={{ width: "30%" }}>
             <FormInput
               label="Max Distance"
               prop="maxDistance"
@@ -235,6 +243,10 @@ const styles = StyleSheet.create({
   },
   sideContainer: {
     width: "40%"
+  },
+  error: {
+    color: "red",
+    marginBottom: 15
   },
   profileImage: {
     height: 160,

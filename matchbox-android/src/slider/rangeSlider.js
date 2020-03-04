@@ -21,7 +21,7 @@ const RangeSlider = props => {
                 onValuesChangeFinish={onEndEditing}
                 onValuesChange={onValuesChange}
                 min={18}
-                max={100}
+                max={50}
                 step={1}
                 sliderLength={SCREEN_WIDTH * 0.85}
                 touchDimensions={{

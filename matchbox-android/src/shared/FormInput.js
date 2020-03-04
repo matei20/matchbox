@@ -16,7 +16,7 @@ export default class FormInput extends React.Component {
       <>
         <Text>{this.props.label}</Text>
         <TextInput
-          style={styles.formInput}
+          style={[styles.formInput, this.props.style]}
           type={this.props.type || "none"}
           placeholder={this.props.label}
           value={this.props.value}
