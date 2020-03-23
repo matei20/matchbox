@@ -1,0 +1,17 @@
+{
+  "name": "proiect_ti",
+  "version": "1.0.0",
+  "description": "",
+  "main": "client/server/index.js",
+  "scripts": {
+    "start": "node server/index"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {},
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "oracledb": "^4.2.0",
+    "ws": "^6.1.2"
+  }
+}

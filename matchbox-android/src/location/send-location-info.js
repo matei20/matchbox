@@ -11,9 +11,11 @@ const sendLocationInfo = () => {
             var geocodeResponse = await reverseGeocodeFetch(latitude, longitude);
             if (geocodeResponse) {
                 var location = geocodeResponse.Response.View[0].Result[0].Location;
+                console.log("=============================");
+                console.log(location);
                 var obj = new Object();
                 obj.country = location.Address.AdditionalData[0].value;
-                obj.city = location.Address.City;
+                obj.city = location.Address.County;
                 obj.latitude = latitude;
                 obj.longitude = longitude;
                 apiFetch('save-user-location', obj);

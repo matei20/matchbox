@@ -9,6 +9,7 @@ import RegisterScreen from "../screens/register";
 import InfoScreen from "../screens/info";
 import SwipeScreen from "../screens/swipe";
 import MatchesScreen from "../screens/matches";
+import ChatScreen from "../screens/chat";
 
 const authScreens = {
   [kPaths.login]: <LogInScreen />,
@@ -21,7 +22,8 @@ const appScreens = {
   [kPaths.info]: <InfoScreen />,
   [kPaths.swipe]: <SwipeScreen />,
   [kPaths.matches]: <MatchesScreen />,
-
+  [kPaths.chat]:<ChatScreen/>,
+  
   default: <SwipeScreen />
 };
 

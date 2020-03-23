@@ -268,6 +268,15 @@ CREATE TABLE location( id NUMBER(20) NOT NULL,
                         CONSTRAINT fk_location FOREIGN KEY(id)
                         REFERENCES users(id));
 
+--create MESSAGES table
+create table messages (sender_id NUMBER(20) NOT NULL,
+                        receiver_id NUMBER(20) NOT NULL,
+                        ts TIMESTAMP NOT NULL,
+                        message_text VARCHAR2(4000CHAR),
+                        CONSTRAINT fk_sender_id FOREIGN KEY(sender_id)REFERENCES users(id),
+                        CONSTRAINT fk_receiver_id FOREIGN KEY(receiver_id)REFERENCES users(id)
+                        
+);
 
 
 Check This: https://stackoverflow.com/questions/14725455/connecting-to-visual-studio-debugging-iis-express-server-over-the-lan

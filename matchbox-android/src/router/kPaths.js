@@ -3,7 +3,8 @@ const kPaths = {
   login: "login",
   info: "info",
   swipe: "swipe",
-  matches: "matches"
+  matches: "matches",
+  chat:"chat"
 };
 
 export default kPaths;

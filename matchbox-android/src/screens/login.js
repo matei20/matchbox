@@ -30,10 +30,9 @@ class LogInScreen extends React.Component {
   onSubmit() {
     store.user.fetchLogIn(this.email, this.password).then(
       action(res => {
-        if (res.token)
-        {
-           store.user.login(res.token);
-           sendLocationInfo();
+        if (res.token) {
+          store.user.login(res.token);
+          sendLocationInfo();
         }
         else this.error = res.message;
       })

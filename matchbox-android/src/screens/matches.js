@@ -1,12 +1,16 @@
 import React from "react";
 import { ScrollView, View, StyleSheet, Image, Text } from "react-native";
-import { Ionicons, Entypo } from "@expo/vector-icons";
+import { Ionicons, Entypo, AntDesign, Feather } from "@expo/vector-icons";
+import IconBadge from 'react-native-icon-badge';
 import { observer } from "mobx-react/native";
 import { observable, action } from "mobx";
+import { Link, kPaths } from "../router";
 
 import WithAppNav from "../navs/app";
 import apiFetch from "../lib/apiFetch";
 import photoSrc from "../lib/photo-src";
+import bind from "bind-decorator";
+import store from "../store";
 
 class MatchesScreen extends React.Component {
   @observable.ref matches = null;
@@ -31,7 +35,10 @@ class MatchesScreen extends React.Component {
       })
     );
   }
-
+  @bind handleChat(value) {
+    //store.user.logout();
+    console.log(value);
+  }
   render() {
     if (!this.matches || !this.matches.length) {
       return (
@@ -48,11 +55,34 @@ class MatchesScreen extends React.Component {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {this.matches.map(m => (
           <View key={m.id}>
-            <View>
+            <View style={{ marginTop: 15 }}>
               <Image
                 source={{ uri: m.photoPath }}
                 style={styles.profileImage}
               />
+              <Link path={kPaths.chat} style={styles.link} currentConvOtherUserId={m.id}>
+                <View style={{ flexDirection: 'row', alignItems: 'flex-start', }}>
+                  <IconBadge
+                    MainElement={
+                      <AntDesign name="message1" size={35} />
+                    }
+                    BadgeElement={
+                      <Text style={{ color: '#FFFFFF', fontSize: 10 }}>9+</Text>
+                    }
+                    IconBadgeStyle={
+                      {
+                        minWidth: 15,
+                        width: 15,
+                        height: 15,
+                        borderRadius: 15,
+                        backgroundColor: '#FF0000'
+                      }
+                    }
+                    Hidden={0 == 0}
+                  />
+                </View>
+
+              </Link>
             </View>
 
             <View style={styles.title}>
@@ -116,6 +146,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-end"
   },
+  imageAndChat: {
+    borderTopColor: "#d3d3d3",
+    borderTopWidth: 1,
+    flexDirection: "row",
+    alignItems: "flex-start",
+  },
   profileImage: {
     height: 160,
     borderRadius: 400,
@@ -145,6 +181,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center"
+  },
+  link: {
+    position: "absolute",
+    right: 0,
+    top: 0
   }
 });
 

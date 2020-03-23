@@ -9,11 +9,14 @@ class Link extends React.Component {
   @bind
   handleOnPress() {
     const { path } = this.props;
+     const {currentConvOtherUserId}= this.props;
+     store.ws.currentConvOtherUserId = currentConvOtherUserId;
     store.router.navigate(path);
   }
 
   render() {
     const { children, style, path } = this.props;
+    
     const selectedStyle = {
       backgroundColor: path === store.router.path ? "#efefef" : "fff"
     };

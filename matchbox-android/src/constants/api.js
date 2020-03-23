@@ -1,2 +1,2 @@
-export const kApiBaseUrl = "http://192.168.43.155:6053/api";
-export const kNodeUrl = "http://192.168.43.155:7777";
+export const kApiBaseUrl = "http://192.168.1.4:6053/api";
+export const wsNodeUrl = "ws://192.168.1.4:5000";

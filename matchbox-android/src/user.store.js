@@ -15,11 +15,13 @@ class UserStore {
   login(token) {
     this.token = token;
     store.router.navigate("swipe");
+    store.ws.newconnection(this.token);
   }
 
   @action
   logout() {
     this.token = null;
+    store.ws.closeconnection();
   }
 
   @bind

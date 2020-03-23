@@ -125,7 +125,6 @@ class InfoScreen extends React.Component {
     if (!this.id) {
       return null;
     }
-
     return (
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View>
