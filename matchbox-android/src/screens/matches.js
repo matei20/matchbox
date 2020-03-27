@@ -78,7 +78,7 @@ class MatchesScreen extends React.Component {
                         backgroundColor: '#FF0000'
                       }
                     }
-                    Hidden={0 == 0}
+                    Hidden={0 == 1}
                   />
                 </View>
 

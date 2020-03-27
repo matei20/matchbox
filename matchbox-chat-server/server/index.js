@@ -41,7 +41,7 @@ function onMessage(senderClient, reqObj) {
   const receiverID = reqObj.otherClientID;
 
   console.log(senderID, "=>", receiverID); // debugging
-  console.log(reqObj.text, '\n'); // debugging
+  console.log(reqObj.message, '\n'); // debugging
 
   reqObj.otherClientID = senderID;
   //reqObj.otherClientEmoji = senderClient.user.emoji;
@@ -52,6 +52,10 @@ function onMessage(senderClient, reqObj) {
 
   if (receiverClient) {
     return receiverClient.send(JSON.stringify(reqObj));
+  }
+  else
+  {
+    console.log("client "+ receiverID +" not connected");
   }
 
   // const receiverUser = usersDb.findOne({ username: receiverUsername });

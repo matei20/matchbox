@@ -5,9 +5,10 @@ const URL = 'ws://192.168.1.4:5000';
 
 class wsStore {
     @observable token = null;
-    @observable ws;// = new WebSocket(URL, "", { headers: { 'token': token } });
+    id;
+    @observable wSocket;// = new WebSocket(URL, "", { headers: { 'token': token } });
     @observable currentConvOtherUserId;
-    myObj = {
+    @observable myObj = {
         "318": {
             "unreadCount": 4,
             "messages": [
@@ -29,10 +30,18 @@ class wsStore {
                     "user": { "_id": 318, "name": 'React Native' },
                     "createdAt": new Date(1584964063917),
                     "_id": "559cbd9d-b471-46dd-850a-f7934d6538d3"
-                },
-                
+                }
+
             ]
 
+        },
+        "305": {
+            "unreadCount": 0,
+            "messages": []
+        },
+        "402": {
+            "unreadCount": 0,
+            "messages": []
         }
     };
 
@@ -41,27 +50,30 @@ class wsStore {
     newconnection(token) {
         console.log(this.myObj["318"].unreadCount);
         this.token = token;
-        this.ws = new WebSocket(URL, "", { headers: { 'token': this.token } });
-        this.ws.onopen = () => {
+        this.wSocket = new WebSocket(URL, "", { headers: { 'token': this.token } });
+        this.wSocket.onopen = () => {
             // on connecting, do nothing but log it to the console
             console.log("onopen app ===================");
             console.log('connected')
         }
-        this.ws.onmessage = evt => {
+
+        this.wSocket.onmessage = action(evt => {
             // on receiving a message, add it to the list of messages
-            const message = JSON.parse(evt.data)
+            const reqObj = JSON.parse(evt.data)
+            this.myObj[String(reqObj.otherClientID)].messages.push(reqObj.message);
             console.log("onmessage app ===================");
-            console.log(message);
+            //store.ws.myObj["318"].messages = [...store.ws.myObj["318"].messages, messages[0]];
+            //console.log(message);
             //this.addMessage(message)
-        }
-        this.ws.onclose = () => {
+        })
+        this.wSocket.onclose = () => {
             //console.log('disconnected')
 
         }
     }
     @action
     closeconnection() {
-        this.ws.close()
+        this.wSocket.close()
     }
 }
 

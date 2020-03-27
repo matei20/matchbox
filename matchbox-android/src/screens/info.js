@@ -21,7 +21,6 @@ import bind from "bind-decorator";
 import photoSrc from "../lib/photo-src";
 import store from "../store";
 import { Ionicons } from "@expo/vector-icons";
-
 import RangeSlider from "../slider/rangeSlider";
 
 class InfoScreen extends React.Component {
@@ -125,6 +124,7 @@ class InfoScreen extends React.Component {
     if (!this.id) {
       return null;
     }
+    store.ws.id = this.id;
     return (
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View>

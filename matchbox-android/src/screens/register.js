@@ -14,7 +14,7 @@ import WithAuthNav from "../navs/auth";
 import { FormInput } from "../shared";
 import store from "../store";
 import bind from "bind-decorator";
-import sendLocationInfo from "../location/send-location-info";
+import sendLocationInfo from "../location/sendLocationInfo";
 
 class RegisterScreen extends React.Component {
   @observable email = "";

@@ -1,5 +1,5 @@
 import apiFetch from "../lib/apiFetch";
-import reverseGeocodeFetch from '../location/reverseGeocodeFetch';
+import reverseGeocodeFetch from './reverseGeocodeFetch';
 
 const sendLocationInfo = () => {
     navigator.geolocation.getCurrentPosition(
@@ -8,22 +8,19 @@ const sendLocationInfo = () => {
             const latitude = JSON.stringify(position.coords.latitude);
             const longitude = JSON.stringify(position.coords.longitude);
 
-            var geocodeResponse = await reverseGeocodeFetch(latitude, longitude);
+            const geocodeResponse = await reverseGeocodeFetch(latitude, longitude);
             if (geocodeResponse) {
-                var location = geocodeResponse.Response.View[0].Result[0].Location;
-                console.log("=============================");
-                console.log(location);
-                var obj = new Object();
+                const location = geocodeResponse.Response.View[0].Result[0].Location;
+                const obj = new Object();
                 obj.country = location.Address.AdditionalData[0].value;
                 obj.city = location.Address.County;
                 obj.latitude = latitude;
                 obj.longitude = longitude;
                 apiFetch('save-user-location', obj);
-
             }
         },
         error => {
-            console.log("================================");
+            console.log("send-location-info");//debugging
             console.log(error);
         },
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }

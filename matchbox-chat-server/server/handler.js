@@ -27,7 +27,7 @@ class ConnectionHandler {
     //client.user = token ? usersDb.findOne({ token }) : null;
     console.log("------------------");
     console.log(token);
-    var decoded = verifyAndDecode(token);
+    const decoded = verifyAndDecode(token);
     client.user = decoded;
     console.log(decoded.ID);
     console.log("------------------");
