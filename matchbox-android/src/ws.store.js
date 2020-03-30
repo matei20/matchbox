@@ -1,11 +1,13 @@
-import { observable, action, computed } from "mobx";
+import { observable, action } from "mobx";
 import bind from "bind-decorator";
-import store from "./store";
+import jwt_decode from "jwt-decode";
+import { kApiBaseUrl } from "./constants/api";
+
 const URL = 'ws://192.168.1.4:5000';
 
 class wsStore {
     @observable token = null;
-    id;
+    user_id;
     @observable wSocket;// = new WebSocket(URL, "", { headers: { 'token': token } });
     @observable currentConvOtherUserId;
     @observable myObj = {
@@ -50,21 +52,25 @@ class wsStore {
     newconnection(token) {
         console.log(this.myObj["318"].unreadCount);
         this.token = token;
+        const payload = jwt_decode(token);
+        this.user_id = payload.ID; 
         this.wSocket = new WebSocket(URL, "", { headers: { 'token': this.token } });
         this.wSocket.onopen = () => {
-            // on connecting, do nothing but log it to the console
-            console.log("onopen app ===================");
-            console.log('connected')
+            // on connecting, do nothing
+            //console.log('connected'); //debugging
         }
 
         this.wSocket.onmessage = action(evt => {
             // on receiving a message, add it to the list of messages
             const reqObj = JSON.parse(evt.data)
-            this.myObj[String(reqObj.otherClientID)].messages.push(reqObj.message);
-            console.log("onmessage app ===================");
-            //store.ws.myObj["318"].messages = [...store.ws.myObj["318"].messages, messages[0]];
-            //console.log(message);
-            //this.addMessage(message)
+            if (reqObj.otherClientID != undefined) {
+                let obj = new Object;
+                obj._id = reqObj.message.user._id;
+                obj.avatar = `${kApiBaseUrl}/download-image/${obj._id}.jpg`;
+                reqObj.message.user = obj;
+                this.myObj[String(reqObj.otherClientID)].messages.push(reqObj.message);
+                //console.log("onmessage app ==================="); //debugging
+            }
         })
         this.wSocket.onclose = () => {
             //console.log('disconnected')

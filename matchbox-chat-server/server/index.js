@@ -56,6 +56,7 @@ function onMessage(senderClient, reqObj) {
   else
   {
     console.log("client "+ receiverID +" not connected");
+    return;
   }
 
   // const receiverUser = usersDb.findOne({ username: receiverUsername });
