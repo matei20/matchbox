@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, View, StyleSheet, Image, Text } from "react-native";
-import { Ionicons, Entypo, AntDesign, Feather } from "@expo/vector-icons";
+import { Ionicons, Entypo, AntDesign } from "@expo/vector-icons";
 import IconBadge from 'react-native-icon-badge';
 import { observer } from "mobx-react/native";
 import { observable, action } from "mobx";
@@ -9,13 +9,18 @@ import { Link, kPaths } from "../router";
 import WithAppNav from "../navs/app";
 import apiFetch from "../lib/apiFetch";
 import photoSrc from "../lib/photo-src";
-import bind from "bind-decorator";
 import store from "../store";
 
 class MatchesScreen extends React.Component {
   @observable.ref matches = null;
 
   componentDidMount() {
+    this.initMatches()
+    console.log("wasInitialized========="+store.ws.wasInitialized);
+    if (!store.ws.wasInitialized)
+      this.initConversations()
+  }
+  initMatches() {
     apiFetch("matches").then(
       action(r => {
         this.matches = r.map(m => ({
@@ -33,13 +38,14 @@ class MatchesScreen extends React.Component {
           photoPath: photoSrc(m.ID)
         }));
       })
-    );
+    )
   }
-  @bind handleChat(value) {
-    //store.user.logout();
-    console.log(value);
+
+  initConversations() {
+    apiFetch("conversations").then(store.ws.initConversations);
   }
   render() {
+    
     if (!this.matches || !this.matches.length) {
       return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -60,14 +66,14 @@ class MatchesScreen extends React.Component {
                 source={{ uri: m.photoPath }}
                 style={styles.profileImage}
               />
-              <Link path={kPaths.chat} style={styles.link} currentConvOtherUserId={m.id}>
+              <Link path={kPaths.chat} style={styles.link} otherUserId={m.id}>
                 <View style={{ flexDirection: 'row', alignItems: 'flex-start', }}>
                   <IconBadge
                     MainElement={
                       <AntDesign name="message1" size={35} />
                     }
                     BadgeElement={
-                      <Text style={{ color: '#FFFFFF', fontSize: 10 }}>9+</Text>
+                      <Text style={{ color: '#FFFFFF', fontSize: 10 }}>{store.ws.areUnreadedMessages}</Text>
                     }
                     IconBadgeStyle={
                       {
@@ -78,7 +84,7 @@ class MatchesScreen extends React.Component {
                         backgroundColor: '#FF0000'
                       }
                     }
-                    Hidden={0 == 1}
+                    Hidden={0 == store.ws.areUnreadedMessages}//add store message unread count
                   />
                 </View>
 

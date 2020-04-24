@@ -4,19 +4,25 @@ import bind from "bind-decorator";
 
 import store from "../store";
 import { observer } from "mobx-react/native";
+import apiFetch from "../lib/apiFetch";
 
 class Link extends React.Component {
   @bind
   handleOnPress() {
     const { path } = this.props;
-     const {currentConvOtherUserId}= this.props;
-     store.ws.currentConvOtherUserId = currentConvOtherUserId;
+    const { otherUserId } = this.props;
+    store.ws.otherUserId = otherUserId;
+    // if(otherUserId)
+    // {
+    //   const body = `{otherUserId:${otherUserId}`;
+    //   apiFetch("conversation",body);
+    // }
     store.router.navigate(path);
   }
 
   render() {
     const { children, style, path } = this.props;
-    
+
     const selectedStyle = {
       backgroundColor: path === store.router.path ? "#efefef" : "fff"
     };

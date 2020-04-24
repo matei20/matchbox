@@ -22,6 +22,7 @@ class UserStore {
   logout() {
     this.token = null;
     store.ws.closeconnection();
+    store.ws.wasInitialized = false;
   }
 
   @bind

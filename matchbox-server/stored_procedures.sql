@@ -17,6 +17,37 @@ BEGIN
 where a.like_box=1 and b.like_box=1 and a.from_user=p_id);
 END;
 
+--save message procedure
+create or replace procedure USP_ADDMESSAGE(p_id IN VARCHAR2,
+                                p_sender_id IN NUMERIC,
+                                p_receiver_id IN NUMERIC,
+                                p_created_at IN VARCHAR2,
+                                p_message_text IN VARCHAR2,
+                                p_unread IN NUMERIC,
+                                cursorParam OUT SYS_REFCURSOR)
+IS
+
+BEGIN
+    INSERT INTO messages(id,
+                        sender_id,
+                        receiver_id,
+                        createdat,
+                        message_text,
+                        unread
+                            ) 
+    VALUES(p_id,
+                                p_sender_id,
+                                p_receiver_id,
+                                p_created_at,
+                                p_message_text,
+                                p_unread);
+    OPEN cursorParam FOR
+    SELECT id FROM messages 
+        where id = p_id;
+
+
+
+END;
 
 --register procedure
 create or replace procedure  USP_ADDUSER(p_email IN VARCHAR2,
@@ -104,6 +135,20 @@ BEGIN
       u.id != All(Select to_user from likes where from_user=p_id ) and u.id != p_id and u.age BETWEEN v_minage and v_maxage ;
 END;
 
+--get conversations procedure
+create or replace procedure USP_CONVERSATIONS(p_id IN Numeric,
+                                cursorParam OUT SYS_REFCURSOR)
+IS
+
+BEGIN
+    OPEN cursorParam FOR
+    SELECT * FROM messages 
+        where sender_id = p_id OR receiver_id = p_id
+        ORDER BY (to_timestamp(createdat, 'YYYY-MM-DD"T"HH24:MI:SS.ff3"Z"'));
+     
+
+
+END;
 
 --set like procedure
 create or replace procedure  USP_SETLIKE(p_from_user IN Numeric,
@@ -269,10 +314,12 @@ CREATE TABLE location( id NUMBER(20) NOT NULL,
                         REFERENCES users(id));
 
 --create MESSAGES table
-create table messages (sender_id NUMBER(20) NOT NULL,
+create table messages  (id VARCHAR(50) UNIQUE Not null,
+                        sender_id NUMBER(20) NOT NULL,
                         receiver_id NUMBER(20) NOT NULL,
-                        ts TIMESTAMP NOT NULL,
+                        createdat varchar(40) not null,
                         message_text VARCHAR2(4000CHAR),
+                        unread NUMBER(1),
                         CONSTRAINT fk_sender_id FOREIGN KEY(sender_id)REFERENCES users(id),
                         CONSTRAINT fk_receiver_id FOREIGN KEY(receiver_id)REFERENCES users(id)
                         

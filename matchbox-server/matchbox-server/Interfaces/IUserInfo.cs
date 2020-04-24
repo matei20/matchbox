@@ -11,6 +11,7 @@ namespace MatchboxServer.Interfaces
         dynamic Matches(int id);
         dynamic SetUserLocationInfo(LocationRequest request, int id);
         dynamic GetUserLocationInfo(int id);
+        dynamic GetUserConversations(int id);
         dynamic GetUserMaxDistance(int id);
     }
 }

@@ -2,6 +2,7 @@
 using MatchboxServer.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace MatchboxServer.Controllers
 {
@@ -12,6 +13,23 @@ namespace MatchboxServer.Controllers
         public UserInfoController(IUserInfo _Repository)
         {
             Repository = _Repository;
+        }
+
+        //get conversation
+        [Route("api/conversations")]
+        [HttpGet]
+        public ActionResult Conversations()
+        {
+            var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            int id = Jwt.GetIdFromToken(authorizationToken);
+            dynamic result = Repository.GetUserConversations(id);
+            if (result == null)
+                return NotFound(new { message = "not found" });
+            if (result.ToString() == "ERROR")
+            {
+                return BadRequest(new { message = "Error" });
+            }
+            return Ok(result);
         }
         //save user location POST
         [Route("api/save-user-location")]

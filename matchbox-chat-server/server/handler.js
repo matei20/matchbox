@@ -1,5 +1,3 @@
-const usersDb = require("./usersDb");
-const { parseCookie } = require("./helpers");
 const { verifyAndDecode } = require("../jwt/jwtdecoder");
 
 class ConnectionHandler {
@@ -12,25 +10,23 @@ class ConnectionHandler {
     let reqObj;
 
     try {
-      console.log("=================message");
-      console.log(message);
+      //console.log("=================message");
+      //console.log(message);
       reqObj = JSON.parse(message);
     } catch (e) {
       reqObj = null;
     }
-
     this.events.onMessage(client, reqObj);
   }
 
   handle(client, req) {
     const token = req.headers.token;
-    //client.user = token ? usersDb.findOne({ token }) : null;
-    console.log("------------------");
-    console.log(token);
+    // console.log("------------------"); //debugging
+    // console.log(token);
     const decoded = verifyAndDecode(token);
     client.user = decoded;
-    console.log(decoded.ID);
-    console.log("------------------");
+    // console.log(decoded.ID);
+    // console.log("------------------");
     client.on("message", message => this.handleMessage(client, message));
     client.on("close", () => this.events.onCloseSocket(client));
 
