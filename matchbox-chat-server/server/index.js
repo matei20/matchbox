@@ -43,13 +43,11 @@ async function main() {
     const receiverClient = clients.find(
       c => c.user.ID === receiverID
     );
-
+    Db.saveMessageToDb(senderID, receiverID, reqObj.message, 1); // save message to database
     if (receiverClient) {
-      Db.saveMessageToDb(senderID, receiverID, reqObj.message, 0);
       return receiverClient.send(JSON.stringify(reqObj));
     }
     else {
-      Db.saveMessageToDb(senderID, receiverID, reqObj.message, 1);
       console.log("client " + receiverID + " not connected");
       return;
     }

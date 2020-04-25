@@ -16,7 +16,6 @@ class MatchesScreen extends React.Component {
 
   componentDidMount() {
     this.initMatches()
-    console.log("wasInitialized========="+store.ws.wasInitialized);
     if (!store.ws.wasInitialized)
       this.initConversations()
   }
@@ -35,6 +34,7 @@ class MatchesScreen extends React.Component {
           description: m.DESCRIPTION,
           distance: m.MAXDISTANCE,
           city: m.CITY,
+          unreadCount: m.UNREADCOUNT > 9 ? "9+" : m.UNREADCOUNT,
           photoPath: photoSrc(m.ID)
         }));
       })
@@ -45,7 +45,8 @@ class MatchesScreen extends React.Component {
     apiFetch("conversations").then(store.ws.initConversations);
   }
   render() {
-    
+
+
     if (!this.matches || !this.matches.length) {
       return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -73,7 +74,7 @@ class MatchesScreen extends React.Component {
                       <AntDesign name="message1" size={35} />
                     }
                     BadgeElement={
-                      <Text style={{ color: '#FFFFFF', fontSize: 10 }}>{store.ws.areUnreadedMessages}</Text>
+                      <Text style={{ color: '#FFFFFF', fontSize: 10 }}>{m.unreadCount}</Text>
                     }
                     IconBadgeStyle={
                       {
@@ -84,7 +85,7 @@ class MatchesScreen extends React.Component {
                         backgroundColor: '#FF0000'
                       }
                     }
-                    Hidden={0 == store.ws.areUnreadedMessages}//add store message unread count
+                    Hidden={0 == m.unreadCount}//add store message unread count
                   />
                 </View>
 

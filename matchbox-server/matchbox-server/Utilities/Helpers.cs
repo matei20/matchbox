@@ -10,6 +10,10 @@ namespace MatchboxServer.Utilities
     {
         public string token { get; set; }
     }
+    public class Conversation
+    {
+        public string otherUserID { get; set; }
+    }
     public class RegisterRequest
     {
         public string email { get; set; }

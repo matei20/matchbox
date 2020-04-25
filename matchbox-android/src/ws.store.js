@@ -10,7 +10,6 @@ class wsStore {
     @observable otherUserId;
     wasInitialized = false;
     @observable conversations = {};
-    @observable areUnreadedMessages = 0;
 
     @action.bound
     initConversations(response) {
@@ -77,7 +76,7 @@ class wsStore {
             }
         })
         this.wSocket.onclose = () => {
-            console.log('disconnected');
+            console.log('ws disconnected');
         }
     }
     @action

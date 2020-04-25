@@ -12,9 +12,26 @@ IS
 
 BEGIN
     OPEN cursorParam FOR
-      Select u.*,loc.city from users_info u JOIN location loc on u.id = loc.id 
+      Select u.id,u.name, u.age, u.gender, u.school, u.job, u.company, u.description, u.email, u.maxdistance, u.minage, u.maxage, loc.city, NVL(SUM(m.unread),0) "UNREADCOUNT"
+      from users_info u 
+      JOIN location loc on u.id = loc.id
+      LEFT OUTER JOIN messages m on u.id = m.sender_id and m.receiver_id = p_id
       where u.id IN(Select a.to_user from likes A INNER JOIN likes B on (A.from_user=B.to_user and A.to_user=B.from_user) 
-where a.like_box=1 and b.like_box=1 and a.from_user=p_id);
+                    where a.like_box=1 and b.like_box=1 and a.from_user=p_id) 
+      GROUP BY u.id,u.name, u.age, u.gender, u.school, u.job, u.company, u.description, u.email, u.maxdistance, u.minage, u.maxage, loc.city;
+END;
+
+--set coonversation messages to seen
+create or replace procedure  USP_CONVERSATIONSEEN(p_id IN Numeric,
+                                p_sender_id IN Numeric,
+                                cursorParam OUT SYS_REFCURSOR)
+IS
+
+BEGIN
+update messages SET unread=0
+WHERE sender_id = p_sender_id and receiver_id = p_id;
+    OPEN cursorParam FOR
+      SELECT * from dual;
 END;
 
 --save message procedure
@@ -213,18 +230,20 @@ end;
 
 
 --trigger delete user
-CREATE or REPLACE TRIGGER deleteAccountTrigger
+create or replace TRIGGER deleteAccountTrigger
 BEFORE DELETE
 ON users
 FOR EACH ROW
 DECLARE
     v_id users_info.id%TYPE;
-    
+
 BEGIN
     v_id := :old.id;
     DELETE from likes where from_user=v_id or to_user = v_id;
     DELETE from location where id=v_id;
+    DELETE from messages where sender_id = v_id or receiver_id = v_id; 
     DELETE from users_info where id=v_id;
+    
 end;
 
 --CREATE users table

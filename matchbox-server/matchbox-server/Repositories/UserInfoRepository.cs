@@ -45,6 +45,35 @@ namespace MatchboxServer.Repositories
             return result;
         }
 
+        //SetConversationSeen
+        public dynamic SetConversationToSeen(Conversation request, int id)
+        {
+            dynamic result = null;
+            try
+            {
+                var dyParam = new OracleDynamicParameters();
+                dyParam.Add("p_id", OracleDbType.Int32, ParameterDirection.Input, id, sizeof(Int32));
+                dyParam.Add("p_sender_id", OracleDbType.Int32, ParameterDirection.Input, request.otherUserID, sizeof(Int32));
+                dyParam.Add("cursorParam", OracleDbType.RefCursor, ParameterDirection.Output);
+                var conn = MatchboxConnection.GetConnection(this.configuration);
+                if (conn.State == ConnectionState.Closed)
+                {
+                    conn.Open();
+                }
+                if (conn.State == ConnectionState.Open)
+                {
+                    var query = "USP_CONVERSATIONSEEN";
+                    result = SqlMapper.Query(conn, query, param: dyParam, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception ex)
+            {
+                // throw ex;
+                result = "ERROR";
+            }
+            return result;
+        }
+
         //GetUserInfo
         public dynamic GetInfo(int id)
         {

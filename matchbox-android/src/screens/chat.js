@@ -3,6 +3,7 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import { observer } from "mobx-react/native";
 import WithAppNav from "../navs/app";
 import { action, toJS } from 'mobx';
+import apiFetch from "../lib/apiFetch";
 import store from '../store';
 
 @observer
@@ -20,7 +21,12 @@ class ChatScreen extends React.Component {
         const currentConvOtherUserId = store.ws.otherUserId.toString();
         store.ws.addMessageToConversations(currentConvOtherUserId, messages[0]);
     }
-
+    componentDidMount() {
+        apiFetch("conversationSeen", { otherUserID: store.ws.otherUserId })
+    }
+    componentDidUpdate() {
+        apiFetch("conversationSeen", { otherUserID: store.ws.otherUserId })
+    }
     render() {
         const currentConvOtherUserId = store.ws.otherUserId.toString();
         const messages = store.ws.conversations[currentConvOtherUserId] ? toJS(store.ws.conversations[currentConvOtherUserId].messages) : [];

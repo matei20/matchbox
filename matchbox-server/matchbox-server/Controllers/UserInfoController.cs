@@ -15,7 +15,7 @@ namespace MatchboxServer.Controllers
             Repository = _Repository;
         }
 
-        //get conversation
+        //get conversations
         [Route("api/conversations")]
         [HttpGet]
         public ActionResult Conversations()
@@ -31,6 +31,24 @@ namespace MatchboxServer.Controllers
             }
             return Ok(result);
         }
+
+        //set conversation readed messages
+        [Route("api/conversationSeen")]
+        [HttpPost]
+        public ActionResult ConversationSeen([FromBody]Conversation request)
+        {
+            var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            int id = Jwt.GetIdFromToken(authorizationToken);
+            dynamic result = Repository.SetConversationToSeen(request, id);
+            if (result == null)
+                return NotFound(new { message = "not found" });
+            if (result.ToString() == "ERROR")
+            {
+                return BadRequest(new { message = "Error" });
+            }
+            return Ok(result);
+        }
+
         //save user location POST
         [Route("api/save-user-location")]
         [HttpPost]
@@ -47,6 +65,7 @@ namespace MatchboxServer.Controllers
             }
             return Ok(new { message = "Done" });
         }
+
         //user information GET
         [Route("api/user-info")]
         [HttpGet]
