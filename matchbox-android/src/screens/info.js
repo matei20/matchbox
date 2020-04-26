@@ -174,9 +174,9 @@ class InfoScreen extends React.Component {
         <View style={{
           flexDirection: "row",
         }}>
-          <View style={{ width: "30%" }}>
+          <View style={{ width: "35%" }}>
             <FormInput
-              label="Max Distance"
+              label="Search Distance"
               prop="maxDistance"
               value={this.maxDistance.toString()}
               onChangeText={this.onChangeInt}

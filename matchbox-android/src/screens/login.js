@@ -14,7 +14,8 @@ import bind from "bind-decorator";
 import WithAuthNav from "../navs/auth";
 import { FormInput } from "../shared";
 import store from "../store";
-import sendLocationInfo from "../location/sendLocationInfo";
+import locationInfo from "../location/locationInfo";
+import apiFetch from "../lib/apiFetch";
 
 class LogInScreen extends React.Component {
   @observable email = "simon@gmail.com";
@@ -27,16 +28,22 @@ class LogInScreen extends React.Component {
   }
 
   @bind
-  onSubmit() {
-    store.user.fetchLogIn(this.email, this.password).then(
-      action(res => {
-        if (res.token) {
-          store.user.login(res.token);
-          sendLocationInfo();
-        }
-        else this.error = res.message;
-      })
-    );
+  async onSubmit() {
+    location = await locationInfo();
+    if (location) {
+      store.user.fetchLogIn(this.email, this.password).then(
+        action(res => {
+          if (res.token) {
+            store.user.login(res.token);
+            apiFetch('save-user-location', location);
+
+          }
+          else this.error = res.message;
+        })
+      );
+    }
+    else
+      this.error = "Turn on location!";
   }
 
   render() {

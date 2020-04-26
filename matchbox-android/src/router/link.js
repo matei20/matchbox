@@ -12,11 +12,7 @@ class Link extends React.Component {
     const { path } = this.props;
     const { otherUserId } = this.props;
     store.ws.otherUserId = otherUserId;
-    // if(otherUserId)
-    // {
-    //   const body = `{otherUserId:${otherUserId}`;
-    //   apiFetch("conversation",body);
-    // }
+    
     store.router.navigate(path);
   }
 

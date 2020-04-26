@@ -22,11 +22,11 @@ class ChatScreen extends React.Component {
         store.ws.addMessageToConversations(currentConvOtherUserId, messages[0]);
     }
     componentDidMount() {
-        apiFetch("conversationSeen", { otherUserID: store.ws.otherUserId })
+        apiFetch("conversationSeen", { otherUserID: store.ws.otherUserId });
     }
-    componentDidUpdate() {
-        apiFetch("conversationSeen", { otherUserID: store.ws.otherUserId })
-    }
+    // componentDidUpdate() {
+    //     apiFetch("conversationSeen", { otherUserID: store.ws.otherUserId })
+    // }
     render() {
         const currentConvOtherUserId = store.ws.otherUserId.toString();
         const messages = store.ws.conversations[currentConvOtherUserId] ? toJS(store.ws.conversations[currentConvOtherUserId].messages) : [];

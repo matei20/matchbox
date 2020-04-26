@@ -62,7 +62,7 @@ class MatchesScreen extends React.Component {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {this.matches.map(m => (
           <View key={m.id}>
-            <View style={{ marginTop: 15 }}>
+            <View style={{ marginTop: 25 }}>
               <Image
                 source={{ uri: m.photoPath }}
                 style={styles.profileImage}
@@ -146,7 +146,8 @@ class MatchesScreen extends React.Component {
 const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
-    padding: 20
+    paddingHorizontal: 20,
+    paddingBottom: 20
   },
   title: {
     flexDirection: "row",
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   description: {
-    marginVertical: 20,
+    marginTop: 20,
     paddingVertical: 20,
     paddingHorizontal: 5,
     borderTopWidth: 1,

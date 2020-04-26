@@ -18,7 +18,8 @@ BEGIN
       LEFT OUTER JOIN messages m on u.id = m.sender_id and m.receiver_id = p_id
       where u.id IN(Select a.to_user from likes A INNER JOIN likes B on (A.from_user=B.to_user and A.to_user=B.from_user) 
                     where a.like_box=1 and b.like_box=1 and a.from_user=p_id) 
-      GROUP BY u.id,u.name, u.age, u.gender, u.school, u.job, u.company, u.description, u.email, u.maxdistance, u.minage, u.maxage, loc.city;
+      GROUP BY u.id,u.name, u.age, u.gender, u.school, u.job, u.company, u.description, u.email, u.maxdistance, u.minage, u.maxage, loc.city
+      ORDER BY UNREADCOUNT DESC;
 END;
 
 --set coonversation messages to seen
@@ -188,7 +189,7 @@ BEGIN
 
 DELETE from users where id=p_id;
     OPEN cursorParam FOR
-        SELECT users.id from users where id = 1;
+        SELECT * from dual;
 
 END;
 

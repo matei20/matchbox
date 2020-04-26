@@ -12,7 +12,7 @@ const RangeSlider = props => {
                 flexDirection: "row",
                 justifyContent: "space-between"
             }}>
-                <Text style={{ textAlign: "left" }}>Age Range: </Text>
+                <Text style={{ textAlign: "left" }}>Age Range </Text>
                 <Text style={{ textAlign: "right" }}>{minAge} - {maxAge}</Text>
             </View>
             <MultiSlider
