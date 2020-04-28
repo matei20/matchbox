@@ -53,10 +53,10 @@ namespace MatchboxServer.Utilities
     public static class MatchboxConnection
     {
         
+        static IDbConnection conn = new OracleConnection("data source=localhost:1521/orcl;password=match;user id=c##match;Incr Pool Size=5;Decr Pool Size=2;");
         public static IDbConnection GetConnection(IConfiguration configuration)
         {
             var connectionString = configuration.GetSection("ConnectionStrings").GetSection("MatchboxConnection").Value;
-            var conn = new OracleConnection(connectionString);
             return conn;
         }
     }
