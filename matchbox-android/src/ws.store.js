@@ -79,7 +79,7 @@ class wsStore {
             console.log('ws disconnected');
         }
     }
-    @action
+    @bind
     closeconnection() {
         this.wSocket.close()
     }

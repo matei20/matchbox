@@ -1,7 +1,7 @@
 ﻿using MatchboxServer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using MatchboxServer.Utilities;
-
+using MatchboxServer.Models;
 
 namespace MatchboxServer.Controllers
 {

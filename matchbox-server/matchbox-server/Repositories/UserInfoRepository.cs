@@ -3,6 +3,7 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Data;
 using MatchboxServer.Utilities;
+using MatchboxServer.Models;
 using MatchboxServer.Interfaces;
 using Microsoft.Extensions.Configuration;
 

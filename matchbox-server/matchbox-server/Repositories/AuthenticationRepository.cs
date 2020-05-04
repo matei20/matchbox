@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using MatchboxServer.Interfaces;
 using MatchboxServer.Utilities;
+using MatchboxServer.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace MatchboxServer.Repositories

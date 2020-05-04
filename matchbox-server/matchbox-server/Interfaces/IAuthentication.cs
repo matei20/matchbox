@@ -1,4 +1,4 @@
-﻿using MatchboxServer.Utilities;
+﻿using MatchboxServer.Models;
 
 namespace MatchboxServer.Interfaces
 {
