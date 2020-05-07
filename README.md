@@ -3,7 +3,7 @@
 ## Table of contents
 * [About](#about)
 * [Features](#features)
-* [Technologies, development and implementation aspects](#technologies)
+* [Technologies, development and implementation aspects](#technologies,-development-and-implementation-aspects)
 * [Demo](#demo)
 * [Contact](#contact)
 ## About
@@ -33,10 +33,13 @@ The android app lets you:
   - web server developed with [ASP.NET Core 2.1](https://dotnet.microsoft.com/learn/aspnet/what-is-aspnet-core) framework which is responsible for providing a response to HTTP requests that come from users
   - WebSocket server implemented with [NodeJS](https://nodejs.org/en/about/) that allows real time chat features, handle clients and messages  
   - Token Authentication and Authorization using [JWT](https://jwt.io/introduction/)
-  - Both servers are connected to [Oracle database 19c](https://www.oracle.com/database/)
+  - Both servers are connected to [Oracle database19.c](https://www.oracle.com/database/)
 
 
 ## Demo
+| Login/Swipe/Matches/Chat  | Register |
+| :---: | :---: |
+| ![Demo](docs/gifs/login-matches.gif)  | ![Register Demo](docs/gifs/register.gif)  |
 
 #### 1.Login/Swipe/Matches/Chat
 
