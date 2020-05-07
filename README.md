@@ -4,7 +4,7 @@
 * [About](#about)
 * [Features](#features)
 * [Technologies, development and implementation aspects](#technologies,-development-and-implementation-aspects)
-* [Demo](#demo)
+* [Screenshots and Demo](#screenshots-and-demo)
 * [Contact](#contact)
 ## About
 ***Matchbox*** is an online dating app that enables users to anonymously like or dislike profiles of other users within a defined proximity, once two users have like each other they can exchange messages.
@@ -36,11 +36,18 @@ The android app lets you:
   - Both servers are connected to [Oracle database19.c](https://www.oracle.com/database/)
 
 
-## Demo
-| Login/Swipe/Matches/Chat  | Register |
+## Screenshots and Demo
+### Screenshots
+| Login Screen  | Register Screen |
 | :---: | :---: |
-| ![Demo](docs/gifs/login-matches.gif)  | ![Register Demo](docs/gifs/register.gif)  |
-
+| ![Login](docs/screenshots/rsz_login.jpg)  | ![Register](docs/screenshots/rsz_register.jpg)  |
+| Info Screen  | Info Screen  |
+| ![Info](docs/screenshots/rsz_info.jpg)  | ![Info2](docs/screenshots/rsz_info2.jpg)  |
+| Swipe Screen  | Swipe Screen  |
+| ![Swipe](docs/screenshots/rsz_swipe.jpg)  | ![Swipe2](docs/screenshots/rsz_swipe.jpg)  |
+| Matches Screen  | Chat Screen  |
+| ![Matches](docs/screenshots/rsz_matches.jpg)  | ![Chat](docs/screenshots/rsz_chat.jpg)  |
+### Demo
 #### 1.Login/Swipe/Matches/Chat
 
 ![Demo](docs/gifs/login-matches.gif)
