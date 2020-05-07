@@ -38,11 +38,11 @@ The android app lets you:
 
 ## Demo
 
-###### 1.Login/Swipe/Matches/Chat
+#### 1.Login/Swipe/Matches/Chat
 
 ![Demo](docs/gifs/login-matches.gif)
 
-###### 2.Register
+#### 2.Register
 
 ![Register Demo](docs/gifs/register.gif)
 
