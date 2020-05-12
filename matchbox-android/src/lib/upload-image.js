@@ -30,7 +30,7 @@ async function uploadImage() {
     body: formData,
     headers: {
       Authorization: store.user.token,
-      "content-type": "multipart/form-data"//de vazut care e treaba
+      "content-type": "multipart/form-data"
     }
   });
 }

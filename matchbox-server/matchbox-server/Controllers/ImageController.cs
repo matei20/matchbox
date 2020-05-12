@@ -9,11 +9,7 @@ namespace CoreAPI.Controllers
     [Produces("application/json")]
     public class ImageController : Microsoft.AspNetCore.Mvc.Controller
     {
-        /// <summary>
-        /// upload file test
-        /// </summary>
-        /// <param name="form"></param>
-        /// <returns></returns>
+        //upload-image
         [Route("api/upload-image")]
         [HttpPost]
         public async Task<IActionResult> UploadImage(IFormCollection form)
@@ -32,11 +28,11 @@ namespace CoreAPI.Controllers
 
             }
 
-            //StoreInDB(storePath + form.Files[0].FileName);
-
             return Ok(new { succes = "true" });
 
         }
+
+        //download-image
         [Route("api/download-image/{filename}")]
         [HttpGet]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
@@ -70,16 +66,16 @@ namespace CoreAPI.Controllers
                 memory.Position = 0;
             return File(memory, content_type, Path.GetFileName(path));
         }
+
+        //delete-image
         [Route("api/delete-image")]
         [HttpDelete]
         public async Task<IActionResult> DeleteImage()
         {
             string storePath = "F:/Licenta/matchbox/matchbox-server/Uploads/";
-            //if (filename == null)
-            //   return Content("filename not present");
             var authorizationToken = this.Request.Headers["Authorization"].ToString();
             int id = Jwt.GetIdFromToken(authorizationToken);
-            var filename = id.ToString() + ".jpg";// aici trebuie get photo from database
+            var filename = id.ToString() + ".jpg";
 
             var path = Path.Combine(storePath, filename);
 

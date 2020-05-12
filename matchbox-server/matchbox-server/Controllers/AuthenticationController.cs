@@ -61,7 +61,7 @@ namespace MatchboxServer.Controllers
             return Ok(new { token = Jwt.GenerateToken(result) });
         }
         
-        //delete user Get
+        //delete user
         [Route("api/delete-user")]
         [HttpGet]
         public ActionResult DeleteUser()
@@ -81,9 +81,9 @@ namespace MatchboxServer.Controllers
             //}
             return Ok(new { message = "Done" });
         }
-        
 
-        //altceva
+
+        //server-info
         [Route("api/server-info")]
         [HttpGet]
         public ActionResult ServerInfo()
