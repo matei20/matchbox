@@ -13,6 +13,7 @@
 The android app lets you:
 - authenticate/register with email and password
 - add profile photo
+- delete profile photo
 - and some information about yourself (age, gender, school, job, a short bio)
 - custom search filters based on age and location
 - like/dislike other people profiles
@@ -31,6 +32,7 @@ The android app lets you:
 
 - ***Back end***
   - web server developed with [ASP.NET Core 2.1](https://dotnet.microsoft.com/learn/aspnet/what-is-aspnet-core) framework which is responsible for providing a response to HTTP requests that come from users
+  - [Dapper ORM](https://dapper-tutorial.net/dapper) for mapping and getting the data from Oracle database
   - WebSocket server implemented with [NodeJS](https://nodejs.org/en/about/) that allows real time chat features, handle clients and messages  
   - Token Authentication and Authorization using [JWT](https://jwt.io/introduction/)
   - Both servers are connected to [Oracle database19.c](https://www.oracle.com/database/)
