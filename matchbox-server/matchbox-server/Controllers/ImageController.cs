@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.IO;
 using MatchboxServer.Utilities;
 
-namespace CoreAPI.Controllers
+namespace MatchboxServer.Controllers
 {
     [Produces("application/json")]
     public class ImageController : Microsoft.AspNetCore.Mvc.Controller

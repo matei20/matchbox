@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MatchboxServer.Controllers.ImageController">
+    <Position X="6" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Controllers\ImageController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MatchboxServer.Controllers.AuthenticationController">
+    <Position X="8" Y="1.5" Width="2" />
+    <InheritanceLine Type="Microsoft.AspNetCore.Mvc.Controller" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="1.062" />
+        <Point X="6.75" Y="1.26" />
+        <Point X="8.375" Y="1.26" />
+        <Point X="8.375" Y="1.5" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="Repository" Type="MatchboxServer.Interfaces.IAuthentication" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="10" Y="2.125" />
+        <Point X="10.25" Y="2.125" />
+        <Point X="10.25" Y="5" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAIAAAEAAAAAAAAAAABAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Controllers\AuthenticationController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Repository" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MatchboxServer.Controllers.UserInfoController">
+    <Position X="3.75" Y="1.5" Width="1.75" />
+    <InheritanceLine Type="Microsoft.AspNetCore.Mvc.Controller" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="1.062" />
+        <Point X="6.75" Y="1.26" />
+        <Point X="5.062" Y="1.26" />
+        <Point X="5.062" Y="1.5" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="Repository" Type="MatchboxServer.Interfaces.IUserInfo" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.75" Y="2.125" />
+        <Point X="3.5" Y="2.125" />
+        <Point X="3.5" Y="5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.934" Y="0.212" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>ABAEAIIAAAAAAAAAAAABAAAAAIAAABBAAAgAAAAAAAA=</HashCode>
+      <FileName>Controllers\UserInfoController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Repository" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Microsoft.AspNetCore.Mvc.Controller" Collapsed="true">
+    <Position X="5.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="MatchboxServer.Repositories.AuthenticationRepository">
+    <Position X="7.75" Y="11" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAACBAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Repositories\AuthenticationRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="configuration" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="MatchboxServer.Repositories.UserInfoRepository">
+    <Position X="3.5" Y="11" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ABAAAIEAAAAAAQAQAgAEAAAAAACAAEAAAAAAAABAEAA=</HashCode>
+      <FileName>Repositories\UserInfoRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="configuration" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Interface Name="MatchboxServer.Interfaces.IAuthentication">
+    <Position X="9" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAABAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Interfaces\IAuthentication.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MatchboxServer.Interfaces.IUserInfo">
+    <Position X="3.25" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ABAAAIEAAAAAAQAQAgAEAAAAAAAAAEAAAAAAAABAEAA=</HashCode>
+      <FileName>Interfaces\IUserInfo.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Microsoft.Extensions.Configuration.IConfiguration" Collapsed="true">
+    <Position X="8.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
