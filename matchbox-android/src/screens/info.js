@@ -113,7 +113,7 @@ class InfoScreen extends React.Component {
   }
 
   @bind handleDeleteAccount() {
-    apiFetch("delete-user").then(this.handleLogout);
+    apiFetch("delete-user", null, { method: "DELETE" }).then(this.handleLogout);
   }
 
   @bind handleDeleteImage() {

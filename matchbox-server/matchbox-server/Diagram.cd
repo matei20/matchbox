@@ -9,14 +9,6 @@
   </Class>
   <Class Name="MatchboxServer.Controllers.AuthenticationController">
     <Position X="8" Y="1.5" Width="2" />
-    <InheritanceLine Type="Microsoft.AspNetCore.Mvc.Controller" FixedToPoint="true">
-      <Path>
-        <Point X="6.75" Y="1.062" />
-        <Point X="6.75" Y="1.26" />
-        <Point X="8.375" Y="1.26" />
-        <Point X="8.375" Y="1.5" />
-      </Path>
-    </InheritanceLine>
     <AssociationLine Name="Repository" Type="MatchboxServer.Interfaces.IAuthentication" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="10" Y="2.125" />
@@ -34,14 +26,6 @@
   </Class>
   <Class Name="MatchboxServer.Controllers.UserInfoController">
     <Position X="3.75" Y="1.5" Width="1.75" />
-    <InheritanceLine Type="Microsoft.AspNetCore.Mvc.Controller" ManuallyRouted="true" FixedToPoint="true">
-      <Path>
-        <Point X="6.75" Y="1.062" />
-        <Point X="6.75" Y="1.26" />
-        <Point X="5.062" Y="1.26" />
-        <Point X="5.062" Y="1.5" />
-      </Path>
-    </InheritanceLine>
     <AssociationLine Name="Repository" Type="MatchboxServer.Interfaces.IUserInfo" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="3.75" Y="2.125" />
@@ -59,10 +43,6 @@
     <ShowAsAssociation>
       <Field Name="Repository" />
     </ShowAsAssociation>
-  </Class>
-  <Class Name="Microsoft.AspNetCore.Mvc.Controller" Collapsed="true">
-    <Position X="5.5" Y="0.5" Width="2.5" />
-    <TypeIdentifier />
   </Class>
   <Class Name="MatchboxServer.Repositories.AuthenticationRepository">
     <Position X="7.75" Y="11" Width="2" />
@@ -85,6 +65,10 @@
       <Field Name="configuration" />
     </ShowAsAssociation>
     <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="Microsoft.AspNetCore.Mvc.Controller" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
   </Class>
   <Interface Name="MatchboxServer.Interfaces.IAuthentication">
     <Position X="9" Y="5" Width="1.5" />

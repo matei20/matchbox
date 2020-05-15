@@ -1,7 +1,7 @@
 import { kApiBaseUrl } from "../constants/api";
 import store from "../store";
 
-function apiFetch(path, body) {
+function apiFetch(path, body, options = {}) {
   const { token } = store.user;
 
   return fetch(`${kApiBaseUrl}/${path}`, {
@@ -10,7 +10,8 @@ function apiFetch(path, body) {
       Authorization: token,
       "content-type": "application/json"
     },
-    body: Boolean(body) ? JSON.stringify(body) : null
+    body: Boolean(body) ? JSON.stringify(body) : null,
+    ...options
   }).then(r => r.json());
 }
 

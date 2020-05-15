@@ -63,7 +63,7 @@ namespace MatchboxServer.Controllers
         
         //delete user
         [Route("api/delete-user")]
-        [HttpGet]
+        [HttpDelete]
         public ActionResult DeleteUser()
         {
             var authorizationToken = this.Request.Headers["Authorization"].ToString();
@@ -75,10 +75,6 @@ namespace MatchboxServer.Controllers
             {
                 return BadRequest(new { message = "Error" });
             }
-            //foreach (var res in result)
-            //{
-            //    return Ok(res);
-            //}
             return Ok(new { message = "Done" });
         }
 
