@@ -37,7 +37,7 @@ The android app lets you:
   - Both servers are connected to [Oracle database19.c](https://www.oracle.com/database/)
 
 
-![Demo](docs/img/swac.jpg)
+![Components](docs/img/swac.JPG)
 
 ## Demo
 
