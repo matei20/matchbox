@@ -53,6 +53,10 @@ namespace MatchboxServer.Controllers
             {
                 return BadRequest(new { message = "Email format incorrect" });
             }
+            else if (result.ToString() == "Field cannot be empty")
+            {
+                return BadRequest(new { message = "Field cannot be empty" });
+            }
             else if (result.ToString() == "Error")
             {
                 return BadRequest(new { message = "Error" });

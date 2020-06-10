@@ -99,6 +99,8 @@ namespace MatchboxServer.Repositories
                         result = "Email format incorrect";
                     else if (errorCode == "ORA-00001")
                         result = "This email is already used";
+                    else if (errorCode == "ORA-01400")
+                        result = "Field cannot be empty";
                     else
                         result = "Error";
                 }
