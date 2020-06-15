@@ -3,7 +3,7 @@
 ## Table of contents
 * [About](#about)
 * [Features](#features)
-* [Technologies, development and implementation aspects](#technologies,-development-and-implementation-aspects)
+* [Technologies, development and implementation aspects](#technologies-development-and-implementation-aspects)
 * [Demo](#demo)
 * [Contact](#contact)
 ## About
