@@ -65,19 +65,24 @@ class InfoScreen extends React.Component {
       this.error = "Age must be higher than 18!";
     }
     else {
-      this.error = "";
-      apiFetch("user-info", {
-        name: this.name,
-        age: this.age,
-        minAge: this.minAge,
-        maxAge: this.maxAge,
-        maxDistance: this.maxDistance,
-        gender: this.gender,
-        school: this.school,
-        job: this.job,
-        company: this.company,
-        description: this.description
-      });
+      if (parseInt(this.maxDistance) <= 0) {
+        this.error = "Search distance must be higher than 0!";
+      }
+      else {
+        this.error = "";
+        apiFetch("user-info", {
+          name: this.name,
+          age: this.age,
+          minAge: this.minAge,
+          maxAge: this.maxAge,
+          maxDistance: this.maxDistance,
+          gender: this.gender,
+          school: this.school,
+          job: this.job,
+          company: this.company,
+          description: this.description
+        });
+      }
     }
   }
 
