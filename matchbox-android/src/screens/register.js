@@ -30,21 +30,25 @@ class RegisterScreen extends React.Component {
 
   @bind
   async onSubmit() {
-    location = await locationInfo();
-    if (location) {
-      store.user.fetchRegister(this.email, this.password, this.rePassword).then(
-        action(res => {
-          if (res.token) {
-            store.user.login(res.token);
-            apiFetch('save-user-location', location);
-          }
-          else
-            this.error = res.message;
-        })
-      );
+    if (this.password === "")
+      this.error = "Password can't be empty!";
+    else {
+      location = await locationInfo();
+      if (location) {
+        store.user.fetchRegister(this.email, this.password, this.rePassword).then(
+          action(res => {
+            if (res.token) {
+              store.user.login(res.token);
+              apiFetch('save-user-location', location);
+            }
+            else
+              this.error = res.message;
+          })
+        );
+      }
+      else
+        this.error = "Turn on location!";
     }
-    else
-      this.error = "Turn on location!";
   }
 
   render() {
