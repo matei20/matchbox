@@ -12,13 +12,13 @@ IS
 
 BEGIN
     OPEN cursorParam FOR
-      Select u.id,u.name, u.age, u.gender, u.school, u.job, u.company, u.description, u.email, u.maxdistance, u.minage, u.maxage, loc.city, NVL(SUM(m.unread),0) "UNREADCOUNT"
+      Select u.id,u.name, u.age, u.gender, u.school, u.job, u.company, u.description, u.maxdistance, u.minage, u.maxage, loc.city, NVL(SUM(m.unread),0) "UNREADCOUNT"
       from users_info u 
       JOIN location loc on u.id = loc.id
       LEFT OUTER JOIN messages m on u.id = m.sender_id and m.receiver_id = p_id
       where u.id IN(Select a.to_user from likes A INNER JOIN likes B on (A.from_user=B.to_user and A.to_user=B.from_user) 
                     where a.like_box=1 and b.like_box=1 and a.from_user=p_id) 
-      GROUP BY u.id,u.name, u.age, u.gender, u.school, u.job, u.company, u.description, u.email, u.maxdistance, u.minage, u.maxage, loc.city
+      GROUP BY u.id,u.name, u.age, u.gender, u.school, u.job, u.company, u.description, u.maxdistance, u.minage, u.maxage, loc.city
       ORDER BY UNREADCOUNT DESC;
 END;
 
@@ -220,12 +220,10 @@ ON users
 FOR EACH ROW
 DECLARE
     v_id users_info.id%TYPE;
-    v_email users_info.email%TYPE;
 
 BEGIN
     v_id := :new.id;
-    v_email := :new.email;
-    INSERT INTO users_info(id, email) values (v_id, v_email);
+    INSERT INTO users_info(id) values (v_id);
     INSERT INTO location(id) values (v_id);
 end;
 
@@ -300,7 +298,6 @@ end;
 	"JOB" VARCHAR2(40 BYTE), 
 	"COMPANY" VARCHAR2(40 BYTE), 
 	"DESCRIPTION" VARCHAR2(120 BYTE), 
-	"EMAIL" VARCHAR2(50 BYTE), 
 	"MAXDISTANCE" NUMBER(3,0), 
 	"MINAGE" NUMBER(3,0), 
 	"MAXAGE" NUMBER(3,0), 
@@ -313,7 +310,7 @@ end;
 	 CONSTRAINT "CHK_MINAGE" CHECK (minage>=18) ENABLE, 
 	 CONSTRAINT "CHK_MAXAGE" CHECK (maxage <=100) ENABLE, 
 	 CONSTRAINT "USERS_INFO_ID_FK" FOREIGN KEY ("ID")
-	  REFERENCES "C##MATCH"."USERS" ("ID") ENABLE
+	  REFERENCES "USERS" ("ID") ENABLE
    ) SEGMENT CREATION IMMEDIATE 
   PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
  NOCOMPRESS LOGGING
@@ -321,6 +318,7 @@ end;
   PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
   BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
   TABLESPACE "USERS" ;
+
 
 
 --create LOCATION table

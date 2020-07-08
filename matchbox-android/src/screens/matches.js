@@ -24,7 +24,6 @@ class MatchesScreen extends React.Component {
       action(r => {
         this.matches = r.map(m => ({
           id: m.ID,
-          email: m.EMAIL,
           name: m.NAME,
           age: m.AGE,
           gender: m.GENDER,
@@ -108,11 +107,6 @@ class MatchesScreen extends React.Component {
             <View style={styles.location}>
               <Entypo name="location-pin" size={18} color="#484848" />
               <Text style={{ marginLeft: 4, color: "#484848" }}>{m.city}, {m.distance} km away</Text>
-            </View>
-
-            <View style={styles.fieldWithIcon}>
-              <Ionicons name="ios-mail" size={18} />
-              <Text style={{ marginLeft: 10 }}>{m.email}</Text>
             </View>
 
             {m.school && (
