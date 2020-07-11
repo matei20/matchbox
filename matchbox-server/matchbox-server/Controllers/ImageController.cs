@@ -16,11 +16,15 @@ namespace MatchboxServer.Controllers
         {
             string storePath = "F:/Licenta/matchbox/matchbox-server/Uploads/";
             if (form.Files == null || form.Files[0].Length == 0)
-                return RedirectToAction("Index");
+                return BadRequest(new { message = "" });
             var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            if (authorizationToken == "")
+                return Unauthorized();
             int id = Jwt.GetIdFromToken(authorizationToken);
+            if (id == 0)
+                return Unauthorized();
+
             string filename = id.ToString() + ".jpg";
-            
             var path = Path.Combine(storePath, filename);
             using (var stream = new FileStream(path, FileMode.Create))
             {
@@ -72,9 +76,14 @@ namespace MatchboxServer.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteImage()
         {
-            string storePath = "F:/Licenta/matchbox/matchbox-server/Uploads/";
             var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            if (authorizationToken == "")
+                return Unauthorized();
             int id = Jwt.GetIdFromToken(authorizationToken);
+            if (id == 0)
+                return Unauthorized();
+
+            string storePath = "F:/Licenta/matchbox/matchbox-server/Uploads/";
             var filename = id.ToString() + ".jpg";
 
             var path = Path.Combine(storePath, filename);

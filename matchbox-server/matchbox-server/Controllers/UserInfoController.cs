@@ -22,7 +22,11 @@ namespace MatchboxServer.Controllers
         public ActionResult Conversations()
         {
             var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            if (authorizationToken == "")
+                return Unauthorized();
             int id = Jwt.GetIdFromToken(authorizationToken);
+            if (id == 0)
+                return Unauthorized();
             dynamic result = Repository.GetUserConversations(id);
             if (result == null)
                 return NotFound(new { message = "not found" });
@@ -39,7 +43,11 @@ namespace MatchboxServer.Controllers
         public ActionResult ConversationSeen([FromBody]Conversation request)
         {
             var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            if (authorizationToken == "")
+                return Unauthorized();
             int id = Jwt.GetIdFromToken(authorizationToken);
+            if (id == 0)
+                return Unauthorized();
             dynamic result = Repository.SetConversationToSeen(request, id);
             if (result == null)
                 return NotFound(new { message = "not found" });
@@ -56,7 +64,11 @@ namespace MatchboxServer.Controllers
         public ActionResult SaveUserLocation([FromBody]LocationRequest request)
         {
             var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            if (authorizationToken == "")
+                return Unauthorized();
             int id = Jwt.GetIdFromToken(authorizationToken);
+            if (id == 0)
+                return Unauthorized();
             dynamic result = Repository.SetUserLocationInfo(request, id);
             if (result == null)
                 return NotFound(new { message = "not found" });
@@ -73,7 +85,11 @@ namespace MatchboxServer.Controllers
         public ActionResult GetUserInfo()
         {
             var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            if (authorizationToken == "")
+                return Unauthorized();
             int id = Jwt.GetIdFromToken(authorizationToken);
+            if (id == 0)
+                return Unauthorized();
             dynamic result = Repository.GetInfo(id);
             if (result == null)
                 return NotFound(new { message = "not found" });
@@ -94,7 +110,11 @@ namespace MatchboxServer.Controllers
         public ActionResult PostUserInfo([FromBody]UserInfoRequest request)
         {
             var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            if (authorizationToken == "")
+                return Unauthorized();
             int id = Jwt.GetIdFromToken(authorizationToken);
+            if(id == 0)
+                return Unauthorized();
             dynamic result = Repository.SetUserInfo(request, id);
             if (result == null)
                 return NotFound(new { message = "not found" });
@@ -111,7 +131,11 @@ namespace MatchboxServer.Controllers
         public ActionResult GetMatch()
         {
             var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            if (authorizationToken == "")
+                return Unauthorized();
             int id =  Jwt.GetIdFromToken(authorizationToken);
+            if (id == 0)
+                return Unauthorized();
             dynamic result = Repository.GetMatch(id);
             if (result == null)
                 return NotFound(new { message = "not found" });
@@ -149,7 +173,11 @@ namespace MatchboxServer.Controllers
         public ActionResult PostSetLike([FromBody]LikeRequest request)
         {
             var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            if (authorizationToken == "")
+                return Unauthorized();
             int id = Jwt.GetIdFromToken(authorizationToken);
+            if (id == 0)
+                return Unauthorized();
             dynamic result = Repository.SetLike(request, id);
             if (result == null)
                 return NotFound(new { message = "not found" });
@@ -166,7 +194,11 @@ namespace MatchboxServer.Controllers
         public ActionResult Matches()
         {
             var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            if (authorizationToken == "")
+                return Unauthorized();
             int id = Jwt.GetIdFromToken(authorizationToken);
+            if (id == 0)
+                return Unauthorized();
             dynamic result = Repository.Matches(id);
             if (result == null)
                 return NotFound(new { message = "not found" });

@@ -71,7 +71,11 @@ namespace MatchboxServer.Controllers
         public ActionResult DeleteUser()
         {
             var authorizationToken = this.Request.Headers["Authorization"].ToString();
+            if (authorizationToken == "")
+                return Unauthorized();
             int id = Jwt.GetIdFromToken(authorizationToken);
+            if (id == 0)
+                return Unauthorized();
             dynamic result = Repository.DeleteUser(id);
             if (result == null)
                 return NotFound(new { message = "not found" });
